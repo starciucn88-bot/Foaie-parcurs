@@ -1,0 +1,16 @@
+{
+  "name": "foaie-parcurs",
+  "version": "0.3.0",
+  "private": true,
+  "scripts": {
+    "android:add": "npx cap add android",
+    "android:sync": "npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/android": "^7.4.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3"
+  }
+}

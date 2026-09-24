@@ -1,0 +1,8 @@
+{
+  "appId": "ro.starciuc.foaieparcurs",
+  "appName": "Foaie de parcurs",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
