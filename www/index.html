@@ -5,7 +5,7 @@
 <button class="btn" onclick="arrival()">🏁 Înregistrează sosire<small>Ora + localitatea GPS + OCR odometru</small></button>
 <button class="btn" onclick="capture('fuel')">⛽ Înregistrează alimentare<small>Bon → OCR și completare automată</small></button>
 <button class="btn" onclick="expenseChoice()">🔧 Înregistrează cheltuială auto<small>Fotografie bon/factură sau PDF</small></button>
-<div class="version">V1.2.2 • GPS fix • OCR bonuri îmbunătățit • PDF facturi</div></div>
+<div class="version">V1.2.3 • GPS localitate • OCR simplificat • km foto/manual</div></div>
 <input id="cam" hidden type="file" accept="image/*" capture="environment"><input id="doc" hidden type="file" accept="image/*,application/pdf"><div id="host"></div>
 <script>
 const K='fp_v122'; let db=JSON.parse(localStorage.getItem(K)||'null')||{trips:[],fuel:[],expenses:[],lastKm:null,active:null};
@@ -48,13 +48,58 @@ function productFrom(lines){
  return c.slice(0,2).join(' + ')
 }
 function parse(t,kind){let lines=t.replace(/\r/g,'').split('\n').map(clean).filter(Boolean),s=lines.join('\n');let total=amountFrom(lines),date=dateFrom(s),bon=bonFrom(lines),product=productFrom(lines);
- if(kind==='fuel'){let liters=(s.match(/(\d+[.,]\d{1,3})\s*(?:L|LITRI)\b/i)||[])[1]||'';let price=(s.match(/(?:PRE[TȚ]|PRICE|LEI\/L)[^\d]{0,15}(\d+[.,]\d{2,3})/i)||[])[1]||'';let trans=(s.match(/(?:TRANZAC|STAN|RRN)[^\d]{0,20}(\d{4,})/i)||[])[1]||'';return{brand:lines[0]||'',station:'',locality:'',date,bon,trans,liters:num(liters),price:num(price),value:total}}
+ if(kind==='fuel'){
+ let liters=(s.match(/(\d+[.,]\d{1,3})\s*(?:L|LITRI|LITR[I]?|L\.)\b/i)||[])[1]||'';
+ let locality='';
+ const locPats=[/(?:LOC\.?|LOCALITATE|MUNICIPIUL|ORA[SȘ]UL|COM\.?|SAT)\s*[:\-]?\s*([A-ZĂÂÎȘȚ][A-ZĂÂÎȘȚa-zăâîșț\- ]{2,30})/i,
+ /(?:STR\.|CALEA|BD\.|BULEVARDUL)[^\n,]*[, ]+([A-ZĂÂÎȘȚ][A-ZĂÂÎȘȚa-zăâîșț\- ]{2,25})/i];
+ for(const r of locPats){let m=s.match(r);if(m){locality=clean(m[1]).replace(/\s+(JUD|JUDET|TEL).*$/i,'');break}}
+ return{locality,date,bon,liters:num(liters),value:total}
+}
  return{product,value:total,number:bon,date}
 }
 function capture(kind){pick('cam',f=>processDoc(kind,f))}
 function expenseChoice(){host.innerHTML='<div class="modal"><div class="sheet"><h2>Cheltuială auto</h2><button class="primary" onclick="closeM();capture(\'expense\')">Fotografiază bon/factură</button><button class="secondary" onclick="closeM();pick(\'doc\',f=>processDoc(\'expense\',f))">Selectează PDF / fișier</button><button class="secondary" onclick="closeM()">Anulează</button></div></div>'}
-async function processDoc(kind,f){if(!f)return;if(f.type==='application/pdf'){form('Cheltuială – PDF atașat',[['product','Produs/cheltuială',''],['value','Valoare',''],['number','Nr. factură/bon',''],['date','Data','']],x=>{db.expenses.push({...x,time:stamp(),fileName:f.name});save()});return}
- host.innerHTML='<div class="modal"><div class="sheet"><div class="progress">OCR: citesc și interpretez documentul…</div></div></div>';try{let t=await ocr(f),x=parse(t,kind);closeM();if(kind==='fuel')form('Alimentare – verifică',[['brand','Brand',x.brand],['station','Stație',x.station],['locality','Localitate',x.locality],['date','Data',x.date],['bon','Nr. bon fiscal',x.bon],['trans','Nr. tranzacție',x.trans],['liters','Litri',x.liters],['price','Preț/L',x.price],['value','Valoare',x.value]],v=>{db.fuel.push({...v,time:stamp()});save()});else form('Cheltuială auto – verifică',[['product','Produs/cheltuială',x.product],['value','Valoare',x.value],['number','Nr. factură/bon',x.number],['date','Data',x.date]],v=>{db.expenses.push({...v,time:stamp()});save()})}catch(e){closeM();alert('OCR: '+e.message)}}
+async function processDoc(kind,f){
+ if(!f)return;
+ if(f.type==='application/pdf'){
+   form('Cheltuială – PDF',[['product','Denumire cheltuială',''],['number','Nr. factură/bon',''],['date','Data facturii/bonului',''],['value','Valoare totală','']],x=>askKm('expense',x,f.name));
+   return;
+ }
+ host.innerHTML='<div class="modal"><div class="sheet"><div class="progress">OCR: citesc documentul…</div></div></div>';
+ try{
+   let t=await ocr(f),x=parse(t,kind);closeM();
+   if(kind==='fuel'){
+     form('Alimentare – verifică',[['date','Data',x.date],['locality','Localitate',x.locality],['bon','Nr. bon fiscal',x.bon],['liters','Litri',x.liters],['value','Valoare',x.value]],v=>askKm('fuel',v,f.name));
+   }else{
+     form('Cheltuială auto – verifică',[['product','Denumire cheltuială (sugestie OCR)',x.product],['number','Nr. factură/bon',x.number],['date','Data facturii/bonului',x.date],['value','Valoare totală',x.value]],v=>askKm('expense',v,f.name));
+   }
+ }catch(e){closeM();alert('OCR: '+e.message)}
+}
+function askKm(kind,data,fileName){
+ host.innerHTML=`<div class="modal"><div class="sheet"><h2>Kilometraj</h2><p>Alege cum introduci kilometrajul din momentul ${kind==='fuel'?'alimentării':'cheltuielii'}.</p>
+ <button class="primary" onclick="kmPhoto('${kind}')">📷 Fotografiază odometrul</button>
+ <button class="secondary" onclick="kmManual('${kind}')">⌨️ Introdu manual</button></div></div>`;
+ window._pendingKm={kind,data,fileName};
+}
+function kmManual(kind){
+ form('Kilometraj',[['km','Km','']],v=>finishKm(v.km));
+}
+function kmPhoto(kind){
+ pick('cam',async f=>{
+   if(!f)return;
+   try{
+     let t=await ocr(f),v=odo(t,db.lastKm);
+     form('Confirmă kilometrajul',[['km','Km',v]],x=>finishKm(x.km));
+   }catch(e){alert('OCR odometru: '+e.message)}
+ });
+}
+function finishKm(km){
+ let q=window._pendingKm;if(!q)return;
+ let rec={...q.data,km:String(km||''),time:stamp(),fileName:q.fileName||''};
+ if(q.kind==='fuel')db.fuel.push(rec);else db.expenses.push(rec);
+ window._pendingKm=null;save();closeM();
+}
 function form(title,fields,cb){let h=`<div class="modal"><div class="sheet"><h2>${title}</h2><form id="f">`;for(const [n,l,v] of fields)h+=`<label>${l}</label><input name="${n}" value="${esc(v)}">`;h+='<button class="primary">Salvează</button><button type="button" class="secondary" onclick="closeM()">Anulează</button></form></div></div>';host.innerHTML=h;f.onsubmit=e=>{e.preventDefault();cb(Object.fromEntries(new FormData(e.target)));closeM()}}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}function closeM(){host.innerHTML=''}render();
 </script></body></html>
