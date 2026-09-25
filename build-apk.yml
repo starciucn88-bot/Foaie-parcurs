@@ -80,6 +80,12 @@ jobs:
           grep -q "com.google.mlkit:text-recognition" android/app/build.gradle
           grep -q "ACCESS_FINE_LOCATION" android/app/src/main/AndroidManifest.xml
           grep -q "@capacitor/geolocation" package.json
+      - name: Verify native plugins
+        run: |
+          npx cap ls android
+          grep -R "CapacitorPluginMlKitTextRecognition" android/app/src/main android/capacitor.settings.gradle android/app/capacitor.build.gradle || (echo "OCR plugin missing from Android project" && exit 1)
+          grep -R "Geolocation" android/app/src/main android/capacitor.settings.gradle android/app/capacitor.build.gradle || (echo "Geolocation plugin missing from Android project" && exit 1)
+
       - name: Build APK
         working-directory: android
         run: ./gradlew assembleDebug
