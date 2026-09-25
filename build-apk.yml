@@ -9,87 +9,39 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '22' }
-      - uses: actions/setup-java@v5
-        with: { distribution: 'temurin', java-version: '21' }
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
       - run: npm install
       - run: npx cap add android
-      - name: Add native OCR and Android permissions
+      - run: npx cap sync android
+      - name: Add Android GPS permissions
         run: |
           python3 - <<'PY'
           from pathlib import Path
           p=Path('android/app/src/main/AndroidManifest.xml')
           s=p.read_text()
-          perms='''<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />\n    <uses-permission android:name="android.permission.CAMERA" />\n    <uses-permission android:name="android.permission.INTERNET" />'''
-          s=s.replace('<application',perms+'\n    <application',1)
+          marker='<application'
+          perms='''<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+          <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+          '''
+          if 'ACCESS_FINE_LOCATION' not in s:
+              s=s.replace(marker,perms+marker)
           p.write_text(s)
-          g=Path('android/app/build.gradle')
-          t=g.read_text()
-          t=t.replace('dependencies {','dependencies {\n    implementation "com.google.mlkit:text-recognition:16.0.1"',1)
-          g.write_text(t)
           PY
-          mkdir -p android/app/src/main/java/ro/starciuc/foaieparcurs
-          cat > android/app/src/main/java/ro/starciuc/foaieparcurs/NativeOcrPlugin.java <<'JAVA'
-          package ro.starciuc.foaieparcurs;
-          import android.graphics.Bitmap;
-          import android.graphics.BitmapFactory;
-          import android.util.Base64;
-          import com.getcapacitor.JSObject;
-          import com.getcapacitor.Plugin;
-          import com.getcapacitor.PluginCall;
-          import com.getcapacitor.annotation.CapacitorPlugin;
-          import com.getcapacitor.PluginMethod;
-          import com.google.mlkit.vision.common.InputImage;
-          import com.google.mlkit.vision.text.TextRecognition;
-          import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
-          @CapacitorPlugin(name = "NativeOcr")
-          public class NativeOcrPlugin extends Plugin {
-            @PluginMethod
-            public void recognize(PluginCall call) {
-              try {
-                String dataUrl = call.getString("dataUrl");
-                if (dataUrl == null) { call.reject("Lipsește fotografia"); return; }
-                int comma = dataUrl.indexOf(',');
-                String b64 = comma >= 0 ? dataUrl.substring(comma + 1) : dataUrl;
-                byte[] bytes = Base64.decode(b64, Base64.DEFAULT);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                if (bitmap == null) { call.reject("Fotografie invalidă"); return; }
-                InputImage image = InputImage.fromBitmap(bitmap, 0);
-                TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS).process(image)
-                  .addOnSuccessListener(result -> { JSObject out = new JSObject(); out.put("text", result.getText()); call.resolve(out); })
-                  .addOnFailureListener(e -> call.reject("OCR eșuat: " + e.getMessage(), e));
-              } catch (Exception e) { call.reject("OCR eșuat: " + e.getMessage(), e); }
-            }
-          }
-          JAVA
-          cat > android/app/src/main/java/ro/starciuc/foaieparcurs/MainActivity.java <<'JAVA'
-          package ro.starciuc.foaieparcurs;
-          import android.os.Bundle;
-          import com.getcapacitor.BridgeActivity;
-          public class MainActivity extends BridgeActivity {
-            @Override public void onCreate(Bundle savedInstanceState) {
-              registerPlugin(NativeOcrPlugin.class);
-              super.onCreate(savedInstanceState);
-            }
-          }
-          JAVA
-      - run: npx cap sync android
-      - name: Verify native OCR and GPS
+      - name: Verify native plugins and permissions
         run: |
-          grep -q "NativeOcrPlugin" android/app/src/main/java/ro/starciuc/foaieparcurs/MainActivity.java
-          grep -q "com.google.mlkit:text-recognition" android/app/build.gradle
-          grep -q "ACCESS_FINE_LOCATION" android/app/src/main/AndroidManifest.xml
-          grep -q "@capacitor/geolocation" package.json
-      - name: Verify native plugins
-        run: |
-          npx cap ls android
-          grep -R "CapacitorPluginMlKitTextRecognition" android/app/src/main android/capacitor.settings.gradle android/app/capacitor.build.gradle || (echo "OCR plugin missing from Android project" && exit 1)
-          grep -R "Geolocation" android/app/src/main android/capacitor.settings.gradle android/app/capacitor.build.gradle || (echo "Geolocation plugin missing from Android project" && exit 1)
-
+          grep -R "CapacitorPluginMlKitTextRecognition" android || exit 1
+          grep -R "Geolocation" android || exit 1
+          grep "ACCESS_FINE_LOCATION" android/app/src/main/AndroidManifest.xml || exit 1
+          grep "ACCESS_COARSE_LOCATION" android/app/src/main/AndroidManifest.xml || exit 1
       - name: Build APK
         working-directory: android
         run: ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: Foaie-parcurs-APK-v1.2-OCR-GPS
+          name: Foaie-parcurs-APK-v1.2.2
           path: android/app/build/outputs/apk/debug/app-debug.apk
