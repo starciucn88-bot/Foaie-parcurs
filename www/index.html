@@ -1,105 +1,14 @@
-<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Foaie de parcurs</title>
-<style>*{box-sizing:border-box}body{font-family:system-ui;margin:0;background:#f4f6f8;color:#17202a}.wrap{max-width:620px;margin:auto;padding:18px 18px 90px}.btn{display:block;width:100%;border:0;border-radius:18px;padding:20px 18px;margin:12px 0;text-align:left;background:#fff;box-shadow:0 3px 14px #0001;font-size:18px;font-weight:750}.btn small{display:block;color:#667;font-size:13px;font-weight:500;margin-top:5px}.version{font-size:11px;color:#889;text-align:center;margin-top:20px}.modal{position:fixed;inset:0;background:#0007;display:flex;align-items:flex-end}.sheet{background:#fff;width:100%;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px}.sheet input{width:100%;padding:11px;margin:3px 0 10px;border:1px solid #ccd3da;border-radius:10px;font-size:16px}.sheet label{font-size:12px;color:#667}.primary,.secondary{width:100%;padding:13px;border:0;border-radius:12px;margin-top:8px}.primary{background:#17202a;color:#fff}.progress{background:#eef3f7;padding:12px;border-radius:10px}.thumb{max-width:100%;max-height:190px;border-radius:10px}</style></head><body>
-<div class="wrap"><h1>Foaie de parcurs</h1><p id="active">Nicio deplasare activă</p>
-<button class="btn" onclick="departure()">🚗 Înregistrează plecare<small>Ora + localitatea GPS; km din ultima sosire</small></button>
-<button class="btn" onclick="arrival()">🏁 Înregistrează sosire<small>Ora + localitatea GPS + OCR odometru</small></button>
-<button class="btn" onclick="capture('fuel')">⛽ Înregistrează alimentare<small>Bon → OCR și completare automată</small></button>
-<button class="btn" onclick="expenseChoice()">🔧 Înregistrează cheltuială auto<small>Fotografie bon/factură sau PDF</small></button>
-<div class="version">V1.2.3 • GPS localitate • OCR simplificat • km foto/manual</div></div>
-<input id="cam" hidden type="file" accept="image/*" capture="environment"><input id="doc" hidden type="file" accept="image/*,application/pdf"><div id="host"></div>
-<script>
-const K='fp_v122'; let db=JSON.parse(localStorage.getItem(K)||'null')||{trips:[],fuel:[],expenses:[],lastKm:null,active:null};
-function save(){localStorage.setItem(K,JSON.stringify(db));render()} function stamp(){return new Date().toLocaleString('ro-RO')}
-function render(){active.textContent=db.active?`Deplasare activă • ${db.active.place} • km ${db.active.startKm??'necunoscut'}`:'Nicio deplasare activă'}
-async function locate(){
- try{
-  const G=window.Capacitor?.Plugins?.Geolocation;if(!G)throw Error('Plugin GPS indisponibil');
-  const st=await G.checkPermissions(); if(st.location!=='granted'&&st.coarseLocation!=='granted'){const p=await G.requestPermissions();if(p.location!=='granted'&&p.coarseLocation!=='granted')throw Error('Permisiunea de locație nu a fost acordată');}
-  const p=await G.getCurrentPosition({enableHighAccuracy:true,timeout:20000,maximumAge:5000});
-  let g={lat:p.coords.latitude,lon:p.coords.longitude,acc:p.coords.accuracy,name:`${p.coords.latitude.toFixed(5)}, ${p.coords.longitude.toFixed(5)}`};
-  try{let r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${g.lat}&lon=${g.lon}&zoom=14&addressdetails=1`,{headers:{'Accept-Language':'ro'}});let j=await r.json(),a=j.address||{};g.name=a.city||a.town||a.village||a.municipality||a.county||g.name}catch(_){}
-  return g;
- }catch(e){alert('GPS: '+e.message);return null}
+<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Foaie de parcurs</title><style>body{font-family:system-ui;background:#f4f6f8;margin:0;color:#17202a}.w{max-width:620px;margin:auto;padding:18px}.b{width:100%;padding:20px;margin:8px 0;border:0;border-radius:16px;background:white;text-align:left;font-size:18px;font-weight:700}.b small{display:block;color:#667;font-weight:400}.m{position:fixed;inset:0;background:#0007;display:flex;align-items:flex-end}.s{background:white;width:100%;padding:18px;border-radius:20px 20px 0 0;max-height:92vh;overflow:auto}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:11px;margin:4px 0 10px;box-sizing:border-box}.p,.q{width:100%;padding:13px;margin-top:8px;border:0;border-radius:10px}.p{background:#17202a;color:white}.q{background:#e9edf0}label{font-size:12px;color:#667}.v{text-align:center;color:#889;font-size:11px;margin-top:20px}</style></head><body><div class="w"><h1>Foaie de parcurs</h1><p id="a">Nicio deplasare activă</p><button class="b" onclick="start()">🚗 Înregistrează plecare<small>Preia ultima sosire • localitate și km editabile</small></button><button class="b" onclick="stop()">🏁 Înregistrează sosire<small>Preia ultima sosire • localitate și km editabile</small></button><button class="b" onclick="fuel()">⛽ Alimentare<small>Introducere manuală / lipire • OCR doar odometru</small></button><button class="b" onclick="expense()">🔧 Cheltuială auto<small>Manual • fotografie/PDF opțional</small></button><div class="v">V1.3.1 • plecare preluată din ultima sosire • OCR odometru la sosire/alimentare</div></div><input hidden id="cam" type="file" accept="image/*" capture="environment"><input hidden id="doc" type="file" accept="image/*,application/pdf"><div id="h"></div><script>
+const K='fp_v130';let d=JSON.parse(localStorage.getItem(K)||'null')||{trips:[],fuel:[],expenses:[],places:['Râșnov','Brașov','Pașcani'],lastKm:null,active:null};const $=x=>document.getElementById(x);function save(){localStorage.setItem(K,JSON.stringify(d));render()}function render(){$('a').textContent=d.active?'Deplasare activă • '+d.active.place+' • km '+d.active.km:'Nicio deplasare activă'}function ts(){return new Date().toLocaleString('ro-RO')}function dt(){return new Date().toLocaleDateString('ro-RO')}function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function pick(id,cb){let x=$(id);x.value='';x.onchange=()=>cb(x.files[0]);x.click()}async function du(f){return await new Promise(r=>{let q=new FileReader();q.onload=()=>r(q.result);q.readAsDataURL(f)})}async function ocr(f){let O=window.Capacitor?.Plugins?.CapacitorPluginMlKitTextRecognition;if(!O)throw Error('OCR indisponibil');let b=(await du(f)).replace(/^data:image\/[^;]+;base64,/,'');return (await O.detectText({base64Image:b,rotation:0})).text}function odo(t){let x=[...t.matchAll(/\b\d{4,7}\b/g)].map(v=>+v[0]);let q=d.lastKm==null?x:x.filter(v=>v>=d.lastKm&&v-d.lastKm<3000);return q.length?Math.min(...q):(x.length?Math.max(...x):'')}function close(){h.innerHTML=''}function km(cb){window.kcb=cb;h.innerHTML='<div class="m"><div class="s"><h2>Kilometraj</h2><button class="p" onclick="kphoto()">📷 Fotografiază odometrul</button><button class="q" onclick="kmanual()">⌨️ Introdu manual</button><button class="q" onclick="close()">Anulează</button></div></div>'}function kphoto(){pick('cam',async f=>{try{let v=odo(await ocr(f));one('Verifică kilometrajul','km','Kilometraj',v,x=>window.kcb(x.km))}catch(e){alert(e.message);kmanual()}})}function kmanual(){one('Kilometraj','km','Kilometraj','',x=>window.kcb(x.km))}function opts(v=''){return [...new Set([...d.places,v].filter(Boolean))].map(x=>'<option '+(x===v?'selected':'')+'>'+esc(x)+'</option>').join('')}function loc(){return '<label>Localitate</label><select name="place">'+opts()+'</select><button type="button" class="q" onclick="addloc()">+ Adaugă localitate</button>'}function addloc(){let x=prompt('Localitate nouă');if(!x)return;x=x.trim();if(!d.places.includes(x))d.places.push(x);save();let s=h.querySelector('select');if(s){s.innerHTML=opts(x);s.value=x}}function tripform(title,kmv,cb){h.innerHTML='<div class="m"><div class="s"><h2>'+title+'</h2><form id="f">'+loc()+'<label>Scopul deplasării</label><input name="purpose"><label>Observații</label><textarea name="notes"></textarea><button class="p">Salvează</button></form></div></div>';f.onsubmit=e=>{e.preventDefault();cb(Object.fromEntries(new FormData(f)),kmv)}}function start(){
+ if(d.active)return alert('Există deja o deplasare activă');
+ let last=d.trips.length?d.trips[d.trips.length-1]:null;
+ let place=last?.arrivalPlace||'';
+ let kmv=last?.endKm??d.lastKm??'';
+ departureForm({place,km:kmv});
 }
-async function departure(){if(db.active)return alert('Există deja o deplasare activă.');let g=await locate();if(!g)return;db.active={time:stamp(),place:g.name,geo:g,startKm:db.lastKm};save();alert('Plecarea: '+g.name)}
-function pick(id,cb){let x=document.getElementById(id);x.value='';x.onchange=()=>cb(x.files[0]||null);x.click()}
-async function dataUrl(f){return new Promise((ok,no)=>{let r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(r.error);r.readAsDataURL(f)})}
-async function ocr(f){if(f.type==='application/pdf')throw Error('PDF-ul necesită text PDF; în V1.2.2 este acceptat ca document, iar OCR direct este pentru imagini.');let O=window.Capacitor?.Plugins?.CapacitorPluginMlKitTextRecognition;if(!O)throw Error('OCR indisponibil');let u=await dataUrl(f),b=String(u).replace(/^data:image\/[^;]+;base64,/,'');let r=await O.detectText({base64Image:b,rotation:0});if(!r.text)throw Error('Nu am detectat text');return r.text}
-function odo(t,min){let a=[...t.matchAll(/\b(\d{4,7})\b/g)].map(x=>+x[1]);if(min!=null){let q=a.filter(x=>x>=+min&&x-+min<3000);if(q.length)return Math.min(...q)}return a.length?Math.max(...a):''}
-async function arrival(){if(!db.active)return alert('Nu există plecare activă.');let g=await locate();if(!g)return;pick('cam',async f=>{if(!f)return;let t='',v='';try{t=await ocr(f);v=odo(t,db.active.startKm)}catch(e){alert(e.message)}form('Sosire',[['km','Kilometraj',v]],x=>{let km=+x.km;if(!Number.isFinite(km))return alert('Kilometraj invalid');db.trips.push({...db.active,arrivalTime:stamp(),arrivalPlace:g.name,arrivalGeo:g,endKm:km});db.lastKm=km;db.active=null;save()})})}
-function clean(s){return String(s||'').replace(/\s+/g,' ').trim()}
-function num(s){return clean(s).replace(/\./g,'').replace(',','.')}
-function amountFrom(lines){
- const bad=/\b(AUTH|RRN|AID|BATCH|MID|TID|STAN|CARD|PAN|TERMINAL|CASIER|AMEF)\b/i;
- const strong=[/\bTOTAL(?:\s+LEI|\s+RON)?\b/i,/\bDE\s+PLAT[ĂA]\b/i,/\bSUMA\b/i,/\bCARD\b/i];
- for(const rx of strong){for(const l of lines){if(rx.test(l)&&!(/\bCARD\b/i.test(l)&&bad.test(l.replace(/CARD/i,'')))){let m=[...l.matchAll(/(\d{1,6}[.,]\d{2})\b/g)];if(m.length)return num(m[m.length-1][1])}}}
- let vals=[];for(const l of lines){if(bad.test(l))continue;for(const m of l.matchAll(/(\d{1,6}[.,]\d{2})\b/g))vals.push(+num(m[1]))}return vals.length?String(Math.max(...vals)):''
-}
-function dateFrom(s){let m=s.match(/\b([0-3]?\d[.\/-][01]?\d[.\/-](?:20)?\d{2,4})\b/);return m?m[1]:''}
-function bonFrom(lines){
- const pats=[/\bBON(?:\s+FISCAL)?\s*(?:NR\.?|#)?\s*[:\-]?\s*(\d{3,10})/i,/\bNR\.?\s*BON\s*[:\-]?\s*(\d{3,10})/i];
- for(const p of pats)for(const l of lines){let m=l.match(p);if(m)return m[1]}
- // Common Romanian fiscal footer: number near "BON" or immediately before date/time, but exclude AMEF/AUTH/RRN.
- for(const l of lines){if(/AMEF|AUTH|RRN|AID|BATCH|CUI|CIF/i.test(l))continue;let m=l.match(/\b(\d{5,8})\b/);if(m&&/BON|FISCAL/i.test(l))return m[1]}return ''
-}
-function productFrom(lines){
- const ignore=/DEDEMAN|SRL|S\.R\.L|CUI|CIF|TOTAL|TVA|CARD|BON|FISCAL|AMEF|AUTH|RRN|AID|BATCH|CASIER|MAGAZIN|ADRESA|TEL|DATA|ORA|LEI|RON/i;
- let c=lines.filter(l=>l.length>5&&!ignore.test(l)&&/[A-Za-zĂÂÎȘȚăâîșț]/.test(l)&&!/^[-\d\s.,xX*%]+$/.test(l));
- return c.slice(0,2).join(' + ')
-}
-function parse(t,kind){let lines=t.replace(/\r/g,'').split('\n').map(clean).filter(Boolean),s=lines.join('\n');let total=amountFrom(lines),date=dateFrom(s),bon=bonFrom(lines),product=productFrom(lines);
- if(kind==='fuel'){
- let liters=(s.match(/(\d+[.,]\d{1,3})\s*(?:L|LITRI|LITR[I]?|L\.)\b/i)||[])[1]||'';
- let locality='';
- const locPats=[/(?:LOC\.?|LOCALITATE|MUNICIPIUL|ORA[SȘ]UL|COM\.?|SAT)\s*[:\-]?\s*([A-ZĂÂÎȘȚ][A-ZĂÂÎȘȚa-zăâîșț\- ]{2,30})/i,
- /(?:STR\.|CALEA|BD\.|BULEVARDUL)[^\n,]*[, ]+([A-ZĂÂÎȘȚ][A-ZĂÂÎȘȚa-zăâîșț\- ]{2,25})/i];
- for(const r of locPats){let m=s.match(r);if(m){locality=clean(m[1]).replace(/\s+(JUD|JUDET|TEL).*$/i,'');break}}
- return{locality,date,bon,liters:num(liters),value:total}
-}
- return{product,value:total,number:bon,date}
-}
-function capture(kind){pick('cam',f=>processDoc(kind,f))}
-function expenseChoice(){host.innerHTML='<div class="modal"><div class="sheet"><h2>Cheltuială auto</h2><button class="primary" onclick="closeM();capture(\'expense\')">Fotografiază bon/factură</button><button class="secondary" onclick="closeM();pick(\'doc\',f=>processDoc(\'expense\',f))">Selectează PDF / fișier</button><button class="secondary" onclick="closeM()">Anulează</button></div></div>'}
-async function processDoc(kind,f){
- if(!f)return;
- if(f.type==='application/pdf'){
-   form('Cheltuială – PDF',[['product','Denumire cheltuială',''],['number','Nr. factură/bon',''],['date','Data facturii/bonului',''],['value','Valoare totală','']],x=>askKm('expense',x,f.name));
-   return;
- }
- host.innerHTML='<div class="modal"><div class="sheet"><div class="progress">OCR: citesc documentul…</div></div></div>';
- try{
-   let t=await ocr(f),x=parse(t,kind);closeM();
-   if(kind==='fuel'){
-     form('Alimentare – verifică',[['date','Data',x.date],['locality','Localitate',x.locality],['bon','Nr. bon fiscal',x.bon],['liters','Litri',x.liters],['value','Valoare',x.value]],v=>askKm('fuel',v,f.name));
-   }else{
-     form('Cheltuială auto – verifică',[['product','Denumire cheltuială (sugestie OCR)',x.product],['number','Nr. factură/bon',x.number],['date','Data facturii/bonului',x.date],['value','Valoare totală',x.value]],v=>askKm('expense',v,f.name));
-   }
- }catch(e){closeM();alert('OCR: '+e.message)}
-}
-function askKm(kind,data,fileName){
- host.innerHTML=`<div class="modal"><div class="sheet"><h2>Kilometraj</h2><p>Alege cum introduci kilometrajul din momentul ${kind==='fuel'?'alimentării':'cheltuielii'}.</p>
- <button class="primary" onclick="kmPhoto('${kind}')">📷 Fotografiază odometrul</button>
- <button class="secondary" onclick="kmManual('${kind}')">⌨️ Introdu manual</button></div></div>`;
- window._pendingKm={kind,data,fileName};
-}
-function kmManual(kind){
- form('Kilometraj',[['km','Km','']],v=>finishKm(v.km));
-}
-function kmPhoto(kind){
- pick('cam',async f=>{
-   if(!f)return;
-   try{
-     let t=await ocr(f),v=odo(t,db.lastKm);
-     form('Confirmă kilometrajul',[['km','Km',v]],x=>finishKm(x.km));
-   }catch(e){alert('OCR odometru: '+e.message)}
- });
-}
-function finishKm(km){
- let q=window._pendingKm;if(!q)return;
- let rec={...q.data,km:String(km||''),time:stamp(),fileName:q.fileName||''};
- if(q.kind==='fuel')db.fuel.push(rec);else db.expenses.push(rec);
- window._pendingKm=null;save();closeM();
-}
-function form(title,fields,cb){let h=`<div class="modal"><div class="sheet"><h2>${title}</h2><form id="f">`;for(const [n,l,v] of fields)h+=`<label>${l}</label><input name="${n}" value="${esc(v)}">`;h+='<button class="primary">Salvează</button><button type="button" class="secondary" onclick="closeM()">Anulează</button></form></div></div>';host.innerHTML=h;f.onsubmit=e=>{e.preventDefault();cb(Object.fromEntries(new FormData(e.target)));closeM()}}
-function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}function closeM(){host.innerHTML=''}render();
+function departureForm(v){
+ h.innerHTML='<div class="m"><div class="s"><h2>Plecare</h2><form id="f"><label>Data / ora</label><input value="'+esc(ts())+'" disabled><label>Localitate plecare</label><select name="place">'+opts(v.place||'')+'</select><button type="button" class="q" onclick="addloc()">+ Adaugă localitate</button><label>Km plecare</label><input name="km" inputmode="numeric" value="'+esc(v.km??'')+'"><label>Scopul deplasării</label><input name="purpose"><label>Observații</label><textarea name="notes"></textarea><button class="p">Înregistrează plecarea</button><button type="button" class="q" onclick="close()">Anulează</button></form></div></div>';
+ f.onsubmit=e=>{e.preventDefault();let x=Object.fromEntries(new FormData(f));let k=+x.km;if(!Number.isFinite(k))return alert('Kilometraj invalid');d.active={time:ts(),place:x.place,km:k,purpose:x.purpose,notes:x.notes};d.lastKm=k;save();close()}
+}function stop(){if(!d.active)return alert('Nu există plecare activă');km(k=>tripform('Sosire',k,(x,k)=>{d.trips.push({...d.active,arrivalTime:ts(),arrivalPlace:x.place,endKm:+k,purpose:x.purpose||d.active.purpose,notes:x.notes||d.active.notes});d.lastKm=+k;d.active=null;save();close()}))}
+function fuel(){km(k=>fuelform({date:dt(),km:k}))}function fuelform(v){h.innerHTML='<div class="m"><div class="s"><h2>Alimentare</h2><button class="q" type="button" onclick="pastefuel()">📋 Lipește date</button><form id="f"><label>Data</label><input name="date" value="'+esc(v.date||dt())+'">'+loc()+'<label>Nr. bon fiscal</label><input name="bon" value="'+esc(v.bon||'')+'"><label>Litri</label><input name="liters" value="'+esc(v.liters||'')+'"><label>Valoare</label><input name="value" value="'+esc(v.value||'')+'"><label>Kilometraj</label><input name="km" value="'+esc(v.km||'')+'"><button type="button" class="q" onclick="pick(\'cam\',x=>window.bon=x?.name)">📷 Poză bon (opțional)</button><button class="p">Salvează</button></form></div></div>';f.onsubmit=e=>{e.preventDefault();d.fuel.push({...Object.fromEntries(new FormData(f)),time:ts(),fileName:window.bon||''});save();close()}}async function pastefuel(){try{let x=(await navigator.clipboard.readText()).trim().split('|');if(x[0].toUpperCase()==='ALIM')x.shift();if(x.length<5)throw 0;fuelform({date:x[0],place:x[1],bon:x[2],liters:x[3],value:x[4],km:h.querySelector('[name=km]')?.value||''})}catch(e){alert('Format: ALIM|data|localitate|nr.bon|litri|valoare')}}function expense(){h.innerHTML='<div class="m"><div class="s"><h2>Cheltuială auto</h2><form id="f"><label>Data</label><input name="date" value="'+dt()+'"><label>Produs / cheltuială</label><input name="product"><label>Nr. factură / bon</label><input name="number"><label>Valoare</label><input name="value"><button type="button" class="q" onclick="pick(\'doc\',x=>window.edoc=x?.name)">📎 Fotografie / PDF (opțional)</button><button class="p">Salvează</button></form></div></div>';f.onsubmit=e=>{e.preventDefault();d.expenses.push({...Object.fromEntries(new FormData(f)),time:ts(),fileName:window.edoc||''});save();close()}}function one(title,n,l,v,cb){h.innerHTML='<div class="m"><div class="s"><h2>'+title+'</h2><form id="f"><label>'+l+'</label><input name="'+n+'" value="'+esc(v)+'"><button class="p">Continuă</button></form></div></div>';f.onsubmit=e=>{e.preventDefault();cb(Object.fromEntries(new FormData(f)))}}render();
 </script></body></html>
