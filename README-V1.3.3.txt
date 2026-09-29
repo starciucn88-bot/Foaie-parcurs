@@ -1,0 +1,11 @@
+V1.3.3 - TEST
+- Alimentare: lipire direct într-un câmp vizibil, fără acces programatic la clipboard.
+- Format: ALIM|data|localitate|nr.bon|litri|valoare
+- Parser strict și simplu: 5 câmpuri după ALIM.
+- Acceptă punct sau virgulă la litri/valoare.
+- Dacă lipirea nu poate fi interpretată, datele pot fi completate manual.
+- Kilometrajul OCR/manual este păstrat când se completează datele lipite.
+- Localitatea nouă se adaugă în lista memorată.
+- Plecarea preia ultima sosire și rămâne editabilă.
+- Sosirea: localitate + OCR/manual odometru.
+- Stocarea existentă rămâne pe cheia fp_v130 pentru continuitate între 1.3.x.
