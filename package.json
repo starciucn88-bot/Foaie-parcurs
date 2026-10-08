@@ -1,11 +1,13 @@
 {
   "name": "foaie-parcurs",
-  "version": "1.3.7",
+  "version": "1.3.9",
   "private": true,
   "dependencies": {
     "@capacitor/core": "^7.4.3",
     "@capacitor/android": "^7.4.3",
-    "@pantrist/capacitor-plugin-ml-kit-text-recognition": "7.0.0"
+    "@pantrist/capacitor-plugin-ml-kit-text-recognition": "7.0.0",
+    "@capacitor/filesystem": "^7.1.4",
+    "@capacitor/share": "^7.0.2"
   },
   "devDependencies": {
     "@capacitor/cli": "^7.4.3"
