@@ -1,13 +1,40 @@
 from pathlib import Path
-import re,shutil
-p=Path("android/app/src/main")
-j=p/"java/ro/starciuc/foaieparcurs";j.mkdir(parents=True,exist_ok=True)
-for f in Path(".github/native").glob("*.java"):shutil.copyfile(f,j/f.name)
-m=p/"AndroidManifest.xml";s=m.read_text()
-s=s.replace("<application ",'''<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
-<application ''',1)
-s=s.replace("</application>",'''<service android:name=".TripNotificationService" android:exported="false" android:foregroundServiceType="specialUse"><property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="Active trip notification" /></service></application>''')
-m.write_text(s)
-g=Path("android/app/build.gradle");s=g.read_text();s=re.sub(r"versionCode\s+\d+","versionCode 11313",s,count=1);s=re.sub(r'versionName\s+"[^"]+"','versionName "1.3.13"',s,count=1);g.write_text(s)
+import re
+import shutil
+
+base = Path('android/app/src/main')
+java_dir = base / 'java/ro/starciuc/foaieparcurs'
+java_dir.mkdir(parents=True, exist_ok=True)
+files = list(Path('native').glob('*.java'))
+if len(files) < 3:
+    raise RuntimeError('Lipsesc fisierele native/*.java')
+for file in files:
+    shutil.copyfile(file, java_dir / file.name)
+
+manifest = base / 'AndroidManifest.xml'
+s = manifest.read_text()
+permissions = [
+    'android.permission.POST_NOTIFICATIONS',
+    'android.permission.FOREGROUND_SERVICE',
+    'android.permission.FOREGROUND_SERVICE_SPECIAL_USE',
+]
+for permission in permissions:
+    if permission not in s:
+        s = s.replace('<application', f'<uses-permission android:name="{permission}" />\n    <application', 1)
+if 'TripNotificationService' not in s:
+    service = ('<service android:name=".TripNotificationService" '
+               'android:exported="false" android:foregroundServiceType="specialUse">'
+               '<property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" '
+               'android:value="Active trip notification" /></service>')
+    s = s.replace('</application>', service + '\n    </application>', 1)
+manifest.write_text(s)
+
+gradle = Path('android/app/build.gradle')
+s = gradle.read_text()
+s, n = re.subn(r'\bversionCode\s+\d+', 'versionCode 11313', s, count=1)
+if n != 1:
+    raise RuntimeError('versionCode nu a fost gasit')
+s, n = re.subn(r'\bversionName\s+["\'][^"\']+["\']', 'versionName "1.3.13"', s, count=1)
+if n != 1:
+    raise RuntimeError('versionName nu a fost gasit')
+gradle.write_text(s)
