@@ -31,10 +31,10 @@ manifest.write_text(s)
 
 gradle = Path('android/app/build.gradle')
 s = gradle.read_text()
-s, n = re.subn(r'\bversionCode\s+\d+', 'versionCode 11315', s, count=1)
+s, n = re.subn(r'\bversionCode\s+\d+', 'versionCode 11316', s, count=1)
 if n != 1:
     raise RuntimeError('versionCode nu a fost gasit')
-s, n = re.subn(r'\bversionName\s+["\'][^"\']+["\']', 'versionName "1.3.14"', s, count=1)
+s, n = re.subn(r'\bversionName\s+["\'][^"\']+["\']', 'versionName "1.3.15"', s, count=1)
 if n != 1:
     raise RuntimeError('versionName nu a fost gasit')
 gradle.write_text(s)
