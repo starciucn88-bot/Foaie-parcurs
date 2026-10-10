@@ -1,0 +1,257 @@
+<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Foaie de parcurs</title><style>body{font-family:system-ui;background:#f4f6f8;margin:0;color:#17202a}.w{max-width:620px;margin:auto;padding:18px}.b{width:100%;padding:20px;margin:8px 0;border:0;border-radius:16px;background:white;text-align:left;font-size:18px;font-weight:700}.b small{display:block;color:#667;font-weight:400}.m{position:fixed;inset:0;background:#0007;display:flex;align-items:flex-end}.s{background:white;width:100%;padding:18px;border-radius:20px 20px 0 0;max-height:92vh;overflow:auto}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:11px;margin:4px 0 10px;box-sizing:border-box}.p,.q{width:100%;padding:13px;margin-top:8px;border:0;border-radius:10px}.p{background:#17202a;color:white}.q{background:#e9edf0}label{font-size:12px;color:#667}.v{text-align:center;color:#889;font-size:11px;margin-top:20px} .sheet{background:white;color:#111;padding:0;min-width:0}.report{border-collapse:collapse;width:100%;table-layout:fixed;font-size:8px;overflow-wrap:anywhere}.report th,.report td{border:1px solid #444;padding:4px}.report th{background:#eee}.sheet h2{text-align:center}.company{font-weight:bold}.sign{margin-top:22px}
+:root{color-scheme:light;--ink:#192838;--muted:#607287;--line:#dbe3ec;--accent:#146a91}
+body{background:#eef2f6;color:var(--ink)}.w{max-width:620px;padding:18px 16px 30px}
+h1{font-size:25px;letter-spacing:-.7px;margin:10px 0 8px}#a{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;color:#31536a;font-weight:600;margin:12px 0 17px}
+.b{box-sizing:border-box;min-height:79px;padding:16px 17px;margin:7px 0;border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 8px #172a3c0a;font-size:17px;color:var(--ink)}
+.b:active{background:#e7f3f9}.b small{margin-top:5px;line-height:1.4;color:var(--muted);font-size:12px}
+.m{z-index:20;background:#1423338c}.s{box-sizing:border-box;max-width:620px;margin:auto;border-radius:20px 20px 0 0;padding:20px 18px 28px;box-shadow:0 -8px 30px #0002}
+.s h2{margin:2px 0 19px;font-size:21px}label{display:block;margin-top:8px;font-weight:600;font-size:12px;color:#53667a}
+input,select,textarea{border:1px solid #cbd6e2;border-radius:10px;background:white;min-height:44px;color:#172839}
+input:focus,select:focus,textarea:focus{outline:2px solid #77b5d5;outline-offset:1px}
+.p,.q{min-height:45px;border-radius:11px;font-weight:650}.p{background:#12698f}.q{background:#e9eef3;color:#1d3447}.v{margin-top:22px}
+.report{table-layout:fixed;font-size:9px}.report th,.report td{padding:3px;overflow-wrap:anywhere;vertical-align:top;line-height:1.28}
+.report.trips th:nth-child(1),.report.trips td:nth-child(1){width:4%}.report.trips th:nth-child(2),.report.trips td:nth-child(2){width:10%}
+.report.trips th:nth-child(3),.report.trips td:nth-child(3){width:12%}.report.trips th:nth-child(4),.report.trips td:nth-child(4){width:14%}
+.report.trips th:nth-child(5),.report.trips td:nth-child(5){width:14%}.report.trips th:nth-child(6),.report.trips td:nth-child(6){width:17%}
+.report.trips th:nth-child(7),.report.trips td:nth-child(7){width:29%}
+
+/* Interfata aprobata: antet numar, stare, 6 actiuni in doua coloane si 2 secundare */
+.w{max-width:620px;padding:calc(env(safe-area-inset-top,0px) + 20px) 15px 28px}
+.top{text-align:center;margin-bottom:18px}.plate{font-weight:850;font-size:27px;letter-spacing:1.1px;color:#17202a;margin:6px 0 12px}
+#a{text-align:center;margin:0;padding:13px 8px;font-size:15px}
+.actions,.secondary-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}
+.actions .b,.secondary-actions .b{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;min-height:126px;padding:13px 9px;margin:0;font-size:15px;line-height:1.22;font-weight:700;box-shadow:0 2px 7px #172a3c08}
+.bi{display:block;font-size:28px;line-height:1.1;filter:grayscale(1);opacity:.78}
+.secondary-actions{margin-top:17px}.secondary-actions .b{min-height:102px;font-size:14px}
+.alerts{margin:10px 0 0;background:#ff0000;color:white;border-radius:12px;padding:13px;font-weight:750;text-align:center;white-space:pre-line}
+.alerts[hidden]{display:none}.v{font-size:12px;font-weight:650;color:#607287;padding:8px 0 12px;margin-top:12px}
+@media(max-width:340px){.actions .b{font-size:13px;min-height:113px}.plate{font-size:23px}}
+
+/* Pictograme contur gri-grafit deschis, fara schimbarea temei aplicatiei */
+.nav-icon{display:block;width:35px;height:35px;color:#87929e;flex-shrink:0}
+.secondary-actions .nav-icon{width:30px;height:30px}
+@media(max-width:340px){.nav-icon{width:31px;height:31px}}
+</style></head><body><div class="w"><header class="top"><div id="vehiclePlate" class="plate">AUTOVEHICUL</div><p id="a">Nicio deplasare activă</p><div id="vehicleAlerts" class="alerts" hidden></div></header><main class="actions"><button class="b" onclick="start()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="7" r="3"/><circle cx="12" cy="12" r="3"/><path d="m7.5 15 2.2-1.5M14.5 10.5l2-1.5"/></svg><span>Înregistrează plecare</span></button><button class="b" onclick="stop()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Înregistrează sosire</span></button><button class="b" onclick="fuel()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v17M3 21h13M4 10h11M15 7h2l3 3v8a2 2 0 0 0 4 0v-6l-3-3"/></svg><span>Alimentare</span></button><button class="b" onclick="expense()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 6.5a5.5 5.5 0 0 0-7 7L2.7 18.3a2 2 0 0 0 3 3l4.8-4.8a5.5 5.5 0 0 0 7-7l-4 4-3-3 4-4Z"/></svg><span>Cheltuială auto</span></button><button class="b" onclick="records()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg><span>Înregistrări</span></button><button class="b" onclick="documents()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h8l5 5v14a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path d="M14 2v6h5M8 13h7M8 17h7"/></svg><span>Generare documente</span></button></main><div class="secondary-actions"><button class="b" onclick="vehicleDetails()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 7 6h10l2 5M4 16v3M20 16v3M3 11h18v6H3zM6 14h2m8 0h2"/></svg><span>Date vehicul</span></button><button class="b" onclick="backupRestoreMenu()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 2 4 3 8 3 1 0 2-.1 3-.3M20 5v8M4 12c0 2 4 3 8 3"/><circle cx="18" cy="18" r="4"/><path d="M18 15v6m-2-4h4"/></svg><span>Backup și restaurare</span></button></div><div class="v">v1.3.14 by NS</div></div><input hidden id="cam" type="file" accept="image/*" capture="environment"><input hidden id="doc" type="file" accept="image/*,application/pdf"><input hidden id="restoreFile" type="file" accept=".json,application/json"><div id="h"></div><script>
+const K='fp_v130';let d=JSON.parse(localStorage.getItem(K)||'null')||{trips:[],fuel:[],expenses:[],places:['Râșnov','Brașov','Pașcani'],lastKm:null,active:null};
+d.purposes=d.purposes||['Deplasare la șantier','Activitate șantier','Activitate birou','Întoarcere'];
+d.notesList=d.notesList||[];const $=x=>document.getElementById(x);function save(){localStorage.setItem(K,JSON.stringify(d));render();syncTripNotification()}
+function syncTripNotification(){let p=window.Capacitor?.Plugins?.TripNotification;if(p)p.sync({active:!!d.active,place:d.active?.place||"",time:d.active?.time||""}).catch(e=>console.warn("Notificare deplasare:",e))}function render(){
+ $('a').textContent=d.active?'Deplasare activă • '+d.active.place+' • km '+d.active.km:'Nicio deplasare activă';
+ const v=d.vehicle||{};$('vehiclePlate').textContent=(v.registration||'AUTOVEHICUL').toUpperCase();
+ const notices=[];const today=new Date();today.setHours(0,0,0,0);
+ for(const [label,key] of [['ITP','itp'],['RCA','rca'],['CASCO','casco'],['Rovinietă','rovinieta']]){
+  if(!v[key])continue;const date=new Date(v[key]+'T00:00:00');if(!Number.isFinite(date.getTime()))continue;
+  const days=Math.ceil((date-today)/86400000);if(days<=30)notices.push(label+': '+(days<0?'expirat de '+(-days)+' zile':days===0?'expiră astăzi':'expiră în '+days+' zile'));
+ }
+ if(v.revisionKm!==undefined&&v.revisionKm!==''&&d.lastKm!==null){const left=Number(v.revisionKm)-Number(d.lastKm);if(Number.isFinite(left)&&left<=1000)notices.push('Revizie: '+(left<=0?'termen depășit':'în '+left+' km'));}
+ const el=$('vehicleAlerts');el.hidden=!notices.length;el.textContent=notices.length?'⚠️ Atenționări\n'+notices.join('\n'):'';
+}function ts(){return new Date().toLocaleString('ro-RO')}function dt(){return new Date().toLocaleDateString('ro-RO')}function esc(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function pick(id,cb){let x=$(id);x.value='';x.onchange=()=>cb(x.files[0]);x.click()}async function du(f){return await new Promise(r=>{let q=new FileReader();q.onload=()=>r(q.result);q.readAsDataURL(f)})}async function ocr(f){let O=window.Capacitor?.Plugins?.CapacitorPluginMlKitTextRecognition;if(!O)throw Error('OCR indisponibil');let b=(await du(f)).replace(/^data:image\/[^;]+;base64,/,'');return (await O.detectText({base64Image:b,rotation:0})).text}function odo(t){let x=[...t.matchAll(/\b\d{4,7}\b/g)].map(v=>+v[0]);let q=d.lastKm==null?x:x.filter(v=>v>=d.lastKm&&v-d.lastKm<3000);return q.length?Math.min(...q):(x.length?Math.max(...x):'')}function closeModal(){h.innerHTML=''}function odometerNumber(value,minimum,strict=false){
+ const raw=String(value??'').trim();
+ if(!/^\d+$/.test(raw))throw Error('Kilometrajul trebuie să conțină numai cifre întregi.');
+ const n=Number(raw);
+ if(!Number.isSafeInteger(n))throw Error('Kilometrajul introdus nu este valid.');
+ if(minimum!==null&&minimum!==undefined&&minimum!==''&&(strict?n<=Number(minimum):n<Number(minimum)))
+  throw Error('Kilometrajul trebuie să fie '+(strict?'mai mare decât ':'cel puțin egal cu ')+minimum+' km.');
+ return n;
+}
+function checkedOdometer(value,minimum,strict=false){try{return odometerNumber(value,minimum,strict)}catch(e){alert(e.message);return null}}
+function kmMinimum(){return d.active?d.active.km:d.lastKm}
+function km(cb){window.kcb=cb;h.innerHTML='<div class="m"><div class="s"><h2>Kilometraj</h2><button class="p" onclick="kphoto()">📷 Fotografiază odometrul</button><button class="q" onclick="kmanual()">⌨️ Introdu manual</button><button class="q" onclick="closeModal()">Anulează</button></div></div>'}function kphoto(){pick('cam',async f=>{try{let v=odo(await ocr(f));one('Verifică kilometrajul','km','Kilometraj',v,x=>{let k=checkedOdometer(x.km,kmMinimum());if(k!==null)window.kcb(k)})}catch(e){alert(e.message);kmanual()}})}function kmanual(){one('Kilometraj','km','Kilometraj','',x=>{let k=checkedOdometer(x.km,kmMinimum());if(k!==null)window.kcb(k)})}function opts(v=''){return [...new Set([...d.places,v].filter(Boolean))].map(x=>'<option '+(x===v?'selected':'')+'>'+esc(x)+'</option>').join('')}function loc(v=''){return '<label>Localitate</label><select name="place">'+opts(v)+'</select><button type="button" class="q" onclick="addloc()">+ Adaugă localitate</button>'}function addloc(){let x=prompt('Localitate nouă');if(!x)return;x=x.trim();if(!d.places.includes(x))d.places.push(x);save();let s=h.querySelector('select');if(s){s.innerHTML=opts(x);s.value=x}}function listopts(a,v=''){return [...new Set([...(a||[]),v].filter(Boolean))].map(x=>'<option '+(x===v?'selected':'')+'>'+esc(x)+'</option>').join('')}
+function purposeField(v=''){return '<label>Scopul deplasării</label><select name="purpose">'+listopts(d.purposes,v)+'</select><button type="button" class="q" onclick="addPurpose()">+ Adaugă scop nou</button>'}
+function notesField(v=''){let empty='<option value="">— Fără observații —</option>';return '<label>Observații</label><select name="notes">'+empty+listopts(d.notesList,v)+'</select><button type="button" class="q" onclick="addNote()">+ Adaugă observație nouă</button>'}
+function addPurpose(){let x=prompt('Scop nou:');if(!x)return;x=x.trim();if(!x)return;if(!d.purposes.includes(x))d.purposes.push(x);save();let q=h.querySelector('select[name=purpose]');if(q){q.innerHTML=listopts(d.purposes,x);q.value=x}}
+function addNote(){let x=prompt('Observație nouă:');if(!x)return;x=x.trim();if(!x)return;if(!d.notesList.includes(x))d.notesList.push(x);save();let q=h.querySelector('select[name=notes]');if(q){q.innerHTML='<option value="">— Fără observații —</option>'+listopts(d.notesList,x);q.value=x}}
+function tripform(title,kmv,cb){h.innerHTML='<div class="m"><div class="s"><h2>'+title+'</h2><form id="f">'+loc(d.active?.place||'')+purposeField(d.active?.purpose||'')+notesField(d.active?.notes||'')+'<button class="p">Salvează</button></form></div></div>';f.onsubmit=e=>{e.preventDefault();cb(Object.fromEntries(new FormData(f)),kmv)}}function backupRestoreMenu(){h.innerHTML='<div class="m"><div class="s"><h2>Backup și restaurare</h2><button class="p" onclick="closeModal();backup()">💾 Copie de siguranță</button><button class="q" onclick="closeModal();restore()">📥 Restaurare date</button><button class="q" onclick="closeModal()">Închide</button></div></div>'}
+function vehicleDetails(){
+ const v=d.vehicle||{};
+ const fields=[['registration','Număr de înmatriculare','text'],['brand','Marcă / model','text'],['itp','ITP – expiră la','date'],['rca','RCA – expiră la','date'],['casco','CASCO – expiră la','date'],['rovinieta','Rovinietă – expiră la','date'],['revisionKm','Următoarea revizie – km','number']];
+ h.innerHTML='<div class="m"><div class="s"><h2>Date vehicul</h2><form id="vehicleForm">'+fields.map(([key,label,type])=>'<label>'+label+'</label><input name="'+key+'" type="'+type+'" '+(type==='number'?'min="0" step="1"':'')+' value="'+esc(v[key]??'')+'">').join('')+'<button class="p" type="submit">Salvează</button><button type="button" class="q" onclick="closeModal()">Anulează</button></form></div></div>';
+ $('vehicleForm').onsubmit=e=>{e.preventDefault();const values=Object.fromEntries(new FormData(e.target));values.registration=values.registration.trim().toUpperCase();if(values.revisionKm&&!/^\d+$/.test(values.revisionKm)){alert('Kilometrajul reviziei trebuie să fie un număr întreg.');return;}d.vehicle=values;save();closeModal();};
+}
+function start(){
+ if(d.active)return alert('Există deja o deplasare activă');
+ let last=d.trips.length?d.trips[d.trips.length-1]:null;
+ let place=last?.arrivalPlace||d.active?.place||'';
+ let kmv=last?.endKm??d.lastKm??'';
+ departureForm({place,km:kmv});
+}
+function departureForm(v){
+ h.innerHTML='<div class="m"><div class="s"><h2>Plecare</h2><form id="f"><label>Data / ora</label><input value="'+esc(ts())+'" disabled><label>Localitate plecare</label><select name="place">'+opts(v.place||'')+'</select><button type="button" class="q" onclick="addloc()">+ Adaugă localitate</button><label>Km plecare</label><input name="km" type="number" min="0" step="1" inputmode="numeric" required value="'+esc(v.km??'')+'">${purposeField()}${notesField()}<button class="p">Înregistrează plecarea</button><button type="button" class="q" onclick="closeModal()">Anulează</button></form></div></div>';
+ f.onsubmit=e=>{e.preventDefault();let x=Object.fromEntries(new FormData(f));let k=checkedOdometer(x.km,d.lastKm,false);if(k===null)return;d.active={time:ts(),place:x.place,km:k,purpose:x.purpose,notes:x.notes};d.lastKm=k;save();closeModal()}
+}function stop(){if(!d.active)return alert('Nu există plecare activă');km(k=>tripform('Sosire',k,(x,k)=>{k=checkedOdometer(k,d.active.km);if(k===null)return;d.trips.push({...d.active,arrivalTime:ts(),arrivalPlace:x.place,endKm:+k,purpose:x.purpose||d.active.purpose,notes:x.notes||d.active.notes});d.lastKm=+k;d.active=null;save();closeModal()}))}
+function fuel(){km(k=>fuelForm({date:dt(),km:k}))}
+function paymentField(v=""){return `<label>Achitat cu</label><select name="payment"><option value="card_combustibil" ${!v||v==="card_combustibil"?"selected":""}>Card combustibil / OP</option><option value="card_personal" ${v==="card_personal"?"selected":""}>Card personal</option><option value="cash" ${v==="cash"?"selected":""}>Cash</option></select>`}
+function fuelForm(v={}){
+ h.innerHTML=`<div class="m"><div class="s"><h2>Alimentare</h2>
+ <label>Date bon – lipire rapidă</label>
+ <textarea id="fuelPaste" rows="3" placeholder="ALIM|26.09.2026|Roman|002508|45.87|341.26"></textarea>
+ <button class="q" type="button" id="fillFuel">Completează din text</button>
+ <form id="fuelForm">
+ <label>Data</label><input name="date" value="${esc(v.date||dt())}">
+ ${loc(v.place||'')}
+ <label>Nr. bon fiscal</label><input name="bon" value="${esc(v.bon||'')}">
+ <label>Litri</label><input name="liters" inputmode="decimal" value="${esc(v.liters||'')}">
+ <label>Valoare</label><input name="value" inputmode="decimal" value="${esc(v.value||'')}">
+ <label>Kilometraj</label><input name="km" type="number" min="0" step="1" inputmode="numeric" required value="${esc(v.km??'')}">
+ ${paymentField(v.payment)}
+ <button type="button" class="q" id="fuelPhoto">📷 Poză bon (opțional)</button>
+ <button class="p">Salvează</button>
+ <button type="button" class="q" onclick="closeModal()">Anulează</button>
+ </form></div></div>`;
+
+ document.getElementById('fillFuel').onclick=()=>{
+   const raw=(document.getElementById('fuelPaste').value||'').trim().replace(/\r?\n/g,'');
+   let a=raw.split('|').map(x=>x.trim());
+   if((a[0]||'').toUpperCase()==='ALIM')a.shift();
+   if(a.length!==5){alert('Format: ALIM|data|localitate|nr.bon|litri|valoare');return}
+   const [datev,place,bon,liters,value]=a;
+   if(place&&!d.places.includes(place))d.places.push(place);
+   const km=document.querySelector('#fuelForm [name=km]').value;
+   fuelForm({date:datev||dt(),place,bon,liters,value,km});
+ };
+ document.getElementById('fuelPhoto').onclick=()=>pick('cam',x=>window.bon=x?.name||'');
+ document.getElementById('fuelForm').onsubmit=e=>{
+   e.preventDefault();
+   const x=Object.fromEntries(new FormData(e.target));
+   if(!x.date||!x.place||!x.bon||!x.liters||!x.value||!x.km){alert('Completează câmpurile obligatorii.');return}
+   d.fuel.push({...x,time:ts(),fileName:window.bon||''});
+   save();closeModal();
+ };
+}
+function expense(){h.innerHTML='<div class="m"><div class="s"><h2>Cheltuială auto</h2><form id="f"><label>Data</label><input name="date" value="'+dt()+'"><label>Produs / cheltuială</label><input name="product"><label>Nr. factură / bon</label><input name="number"><label>Valoare</label><input name="value">'+paymentField()+'<button type="button" class="q" onclick="pick(\'doc\',x=>window.edoc=x?.name)">📎 Fotografie / PDF (opțional)</button><button class="p">Salvează</button><button type="button" class="q" onclick="closeModal()">Anulează</button></form></div></div>';f.onsubmit=e=>{e.preventDefault();d.expenses.push({...Object.fromEntries(new FormData(f)),time:ts(),fileName:window.edoc||''});save();closeModal()}}function one(title,n,l,v,cb){h.innerHTML='<div class="m"><div class="s"><h2>'+title+'</h2><form id="f"><label>'+l+'</label><input name="'+n+'" value="'+esc(v)+'"><button class="p">Continuă</button><button type="button" class="q" onclick="closeModal()">Anulează</button></form></div></div>';f.onsubmit=e=>{e.preventDefault();cb(Object.fromEntries(new FormData(f)))}}function records(){
+ let rows='';
+ d.trips.map((x,i)=>({...x,_index:i})).sort((a,b)=>dateObj(a.time)-dateObj(b.time)).forEach(x=>{let i=x._index;rows+=`<div class="q"><b>🚗 ${esc(x.place||'—')} → ${esc(x.arrivalPlace||'—')}</b><br>${esc(x.km??'—')} → ${esc(x.endKm??'—')} km<br><br><small>${esc(x.time)} → ${esc(x.arrivalTime)}</small><br><button onclick="editTrip(${i})">Editează</button> <button onclick="delrec('trip',${i})">Șterge</button></div>`});
+ d.fuel.forEach((x,i)=>rows+=`<div class="q"><b>⛽ ${esc(x.place||'—')} • ${esc(x.liters||'—')} L</b><br>${esc(x.date||'')} • ${esc(x.value||'—')} lei • bon ${esc(x.bon||'—')}<br><button onclick="editFuel(${i})">Editează</button> <button onclick="delrec('fuel',${i})">Șterge</button></div>`);
+ d.expenses.forEach((x,i)=>rows+=`<div class="q"><b>🔧 ${esc(x.product||'Cheltuială')}</b><br>${esc(x.date||'')} • ${esc(x.value||'—')} lei<br><button onclick="editExpense(${i})">Editează</button> <button onclick="delrec('expense',${i})">Șterge</button></div>`);
+ h.innerHTML=`<div class="m"><div class="s"><h2>Înregistrări</h2>${rows||'<p>Nu există înregistrări.</p>'}<button class="q" onclick="closeModal()">Închide</button></div></div>`;
+}
+function delrec(t,i){if(!confirm('Ștergi această înregistrare?'))return;(t==='trip'?d.trips:t==='fuel'?d.fuel:d.expenses).splice(i,1);save();records()}
+function editFuel(i){let x=d.fuel[i];fuelForm({...x});let ff=document.getElementById('fuelForm');if(ff)ff.onsubmit=e=>{e.preventDefault();d.fuel[i]={...x,...Object.fromEntries(new FormData(e.target))};save();records()}}
+function editExpense(i){let x=d.expenses[i];h.innerHTML=`<div class="m"><div class="s"><h2>Editare cheltuială</h2><form id="ee"><label>Data</label><input name="date" value="${esc(x.date||'')}"><label>Produs</label><input name="product" value="${esc(x.product||'')}"><label>Nr. factură/bon</label><input name="number" value="${esc(x.number||'')}"><label>Valoare</label><input name="value" value="${esc(x.value||'')}">${paymentField(x.payment)}<button class="p">Salvează</button><button type="button" class="q" onclick="records()">Anulează</button></form></div></div>`;ee.onsubmit=e=>{e.preventDefault();d.expenses[i]={...x,...Object.fromEntries(new FormData(e.target))};save();records()}}
+
+
+function dateObj(s){let iso=String(s||'').match(/^(\d{4})-(\d{2})-(\d{2})/);if(iso)return new Date(+iso[1],+iso[2]-1,+iso[3]);let m=String(s||'').match(/(\d{1,2})\.(\d{1,2})\.(\d{4})(?:[,\s]+(\d{1,2}):(\d{2}))?/);return m?new Date(+m[3],+m[2]-1,+m[1],+(m[4]||0),+(m[5]||0)):new Date(0)}
+function inputDate(s){let x=dateObj(s);if(!x.getTime())x=new Date();return [x.getFullYear(),String(x.getMonth()+1).padStart(2,'0'),String(x.getDate()).padStart(2,'0')].join('-')+'T'+String(x.getHours()).padStart(2,'0')+':'+String(x.getMinutes()).padStart(2,'0')}
+function roDate(s){let x=new Date(s);return String(x.getDate()).padStart(2,'0')+'.'+String(x.getMonth()+1).padStart(2,'0')+'.'+x.getFullYear()+', '+String(x.getHours()).padStart(2,'0')+':'+String(x.getMinutes()).padStart(2,'0')}
+function editTrip(i){let x=d.trips[i];h.innerHTML=`<div class="m"><div class="s"><h2>Editare deplasare</h2><form id="editTripForm"><label>Data și ora plecării</label><input type="datetime-local" name="start" required value="${inputDate(x.time)}"><label>Localitate plecare</label><input name="place" required value="${esc(x.place)}"><label>Kilometraj plecare</label><input type="number" name="km" required value="${esc(x.km)}"><label>Data și ora sosirii</label><input type="datetime-local" name="end" required value="${inputDate(x.arrivalTime)}"><label>Localitate sosire</label><input name="arrivalPlace" required value="${esc(x.arrivalPlace)}"><label>Kilometraj sosire</label><input type="number" name="endKm" required value="${esc(x.endKm)}">${purposeField(x.purpose)}${notesField(x.notes)}<button class="p">Salvează</button><button type="button" class="q" onclick="records()">Anulează</button></form></div></div>`;document.getElementById('editTripForm').onsubmit=e=>{e.preventDefault();let a=Object.fromEntries(new FormData(e.target));let begin=checkedOdometer(a.km,null),end=checkedOdometer(a.endKm,begin);
+if(begin===null||end===null)return;
+if(new Date(a.end)<new Date(a.start))return alert('Data sosirii nu poate preceda plecarea.');
+const others=d.trips.map((t,j)=>({...t,j})).filter(t=>t.j!==i).sort((a,b)=>dateObj(a.time)-dateObj(b.time));
+const startDate=new Date(a.start),endDate=new Date(a.end);
+const prior=others.filter(t=>dateObj(t.arrivalTime)<=startDate).at(-1);
+const next=others.find(t=>dateObj(t.time)>=endDate);
+if(prior&&begin<Number(prior.endKm))return alert('Kilometrajul plecării este mai mic decât sosirea deplasării anterioare.');
+if(next&&end>Number(next.km))return alert('Kilometrajul sosirii depășește plecarea deplasării următoare.');d.trips[i]={...x,place:a.place,km:+a.km,time:roDate(a.start),arrivalPlace:a.arrivalPlace,endKm:+a.endKm,arrivalTime:roDate(a.end),purpose:a.purpose,notes:a.notes};for(let v of [a.place,a.arrivalPlace])if(!d.places.includes(v))d.places.push(v);save();records()}}
+function download(name,content,type){let u=URL.createObjectURL(content instanceof Blob?content:new Blob([content],{type}));let a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),10000)}
+async function saveFile(name,bytes,mime){
+ const cap=window.Capacitor;const plugins=cap?.Plugins;
+ if(cap?.isNativePlatform?.() && plugins?.Filesystem && plugins?.Share){
+   try{
+     const base64=bytesToBase64(bytes);
+     const out=await plugins.Filesystem.writeFile({path:name,data:base64,directory:'CACHE'});
+     await plugins.Share.share({title:name,url:out.uri,dialogTitle:'Salvează sau distribuie '+name});
+     return;
+   }catch(e){alert('Nu s-a putut salva/distribui fișierul: '+e.message);return}
+ }
+ download(name,new Blob([bytes],{type:mime}),mime);
+}
+function bytesToBase64(bytes){let s='';for(let i=0;i<bytes.length;i+=8192)s+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(s)}
+async function backup(){let data=new TextEncoder().encode(JSON.stringify({app:'foaie-parcurs',version:1,data:d},null,2));await saveFile('foaie-parcurs-backup-'+new Date().toISOString().slice(0,10)+'.json',data,'application/json')}
+function restore(){if(!confirm('Restaurarea înlocuiește toate înregistrările actuale. Ai salvat o copie de siguranță?'))return;pick('restoreFile',async f=>{if(!f)return;try{let z=JSON.parse(await f.text());if(z.app!=='foaie-parcurs'||!z.data||!Array.isArray(z.data.trips)||!Array.isArray(z.data.fuel)||!Array.isArray(z.data.expenses))throw Error('Fișier invalid');d=z.data;d.places=d.places||[];d.purposes=d.purposes||[];d.notesList=d.notesList||[];save();alert('Date restaurate.')}catch(e){alert('Nu s-a putut restaura: '+e.message)}})}
+function dateKey(s){let x=dateObj(s);return x.getTime()?x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'):''}
+function paymentOf(x){return x.payment||'card_combustibil'}
+function num(x){return Number(String(x??'0').replace(',','.'))||0}
+function money(x){return num(x).toLocaleString('ro-RO',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function monthRows(month){
+ const trips=d.trips.filter(x=>dateKey(x.time).startsWith(month)).map((x,i)=>({...x,_sort:i})).sort((a,b)=>dateObj(a.time)-dateObj(b.time));
+ const rows=[];const n=new Date(+month.slice(0,4),+month.slice(5),0).getDate();
+ for(let day=1;day<=n;day++){
+  const key=month+'-'+String(day).padStart(2,'0');const todays=trips.filter(x=>dateKey(x.time)===key);
+  if(todays.length){todays.forEach(x=>rows.push({date:key,trip:x,stationary:false}));continue}
+  const spanning=d.trips.some(x=>dateKey(x.time)<key&&dateKey(x.arrivalTime)>=key);
+  const prev=d.trips.filter(x=>dateKey(x.arrivalTime)&&dateKey(x.arrivalTime)<key).sort((a,b)=>dateObj(b.arrivalTime)-dateObj(a.arrivalTime))[0];
+  rows.push({date:key,trip:prev||null,stationary:!spanning,spanning});
+ }
+ return rows;
+}
+function dateRO(key){let a=key.split('-');return a[2]+'.'+a[1]+'.'+a[0]}
+function hour(s){let x=String(s||'').match(/(\d{1,2}:\d{2})/);return x?x[1]:''}
+function docTable(headers,rows){return '<table class="report ' +(headers.length===7?'trips':'expenses')+'"><thead><tr>'+headers.map(x=>'<th>'+esc(x)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr>'+row.map(x=>'<td>'+esc(x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
+function reportData(month,kind){
+ const [yy,mm]=month.split('-');const label=new Date(+yy,+mm-1,1).toLocaleDateString('ro-RO',{month:'long',year:'numeric'});
+ if(kind==='trips'){
+  const headers=['Nr. crt.','DATA','Alimentat (Doc. nr./data)','PLECARE – Locul / ora','SOSIRE – Locul / ora','KM BORD – plecare / sosire','OBSERVAȚII (SCOPUL DEPLASĂRII)'];
+  let total=0;const all=monthRows(month);
+  const rows=all.map((r,i)=>{
+   const t=r.trip;const first=all.findIndex(x=>x.date===r.date)===i;
+   const fuel=first?d.fuel.filter(x=>dateKey(x.date)===r.date).map(x=>(x.bon||'')+' / '+(x.date||'')).join('; '):'';
+   if(r.spanning)return [i+1,dateRO(r.date),fuel,'','','','DEPLASARE ÎN CURS'];
+   if(r.stationary)return [i+1,dateRO(r.date),fuel,'','',String(t?.endKm??'')+' / '+String(t?.endKm??''),'ÎN STAȚIONARE'];
+   const dist=num(t.endKm)-num(t.km);total+=dist;
+   return [i+1,dateRO(r.date),fuel,(t.place||'')+' '+hour(t.time),(t.arrivalPlace||'')+' '+hour(t.arrivalTime),String(t.km??'')+' / '+String(t.endKm??''),(t.purpose||t.notes||'Deplasare')+' – '+dist+' km'];
+  });
+  const city=Math.round(total*0.15),outside=total-city;
+  const monthlyFuel=d.fuel.filter(x=>dateKey(x.date).startsWith(month));
+  const liters=monthlyFuel.reduce((v,x)=>v+num(x.liters),0);
+  const fuelValue=monthlyFuel.reduce((v,x)=>v+num(x.value),0);
+  const specific=total>0&&liters>0?fuelValue/(total*liters):null;
+  const calculation={total,city,outside,specific:specific===null?'—':(specific*100).toFixed(2).replace('.',',')+'%',value:money(fuelValue)};
+  return {label,title:'FOAIE DE PARCURS',sub:'Autovehicul: DACIA LOGAN · B-95-SEP | Conducător auto: NICOLAE STARCIUC',headers,rows,footer:'Total KM: '+total,calculation};
+ }
+ const headers=['Nr. crt.','Data','Document Seria/ Număr/ Data','Denumire produs','Indicator km.','Combustibil (litri)','Valoare plătită cu card OMV/Petrom & OP','Valoare plătită cu card personal (lei)','Valoare plătită cash (lei)'];
+ const all=[...d.fuel.filter(x=>dateKey(x.date).startsWith(month)).map(x=>({date:x.date,doc:x.bon||'',product:'Benzină',km:x.km,liters:x.liters,value:num(x.value),payment:paymentOf(x)})),...d.expenses.filter(x=>dateKey(x.date).startsWith(month)).map(x=>({date:x.date,doc:x.number||'',product:x.product||'',km:'',liters:'',value:num(x.value),payment:paymentOf(x)}))].sort((a,b)=>dateObj(a.date)-dateObj(b.date));
+ const sums={card_combustibil:0,card_personal:0,cash:0};let liters=0;
+ const rows=all.map((x,i)=>{let pay=x.payment==='OP'?'card_combustibil':x.payment;sums[pay]=(sums[pay]||0)+x.value;liters+=num(x.liters);return [i+1,x.date,x.doc+(x.doc?' - ':'')+x.date,x.product,x.km||'',x.liters||'',pay==='card_combustibil'?money(x.value):'',pay==='card_personal'?money(x.value):'',pay==='cash'?money(x.value):'']});
+ while(rows.length<18)rows.push([rows.length+1,'','','','','','','','']);
+ const personal=sums.card_personal+sums.cash,grand=Object.values(sums).reduce((a,b)=>a+b,0);
+ const summary={liters:money(liters),card:money(sums.card_combustibil),personal:money(sums.card_personal),cash:money(sums.cash),grand:money(grand),paid:money(personal),difference:money(personal),advance:'0,00',balance:money(personal),date:'01.'+String(+mm===12?1:+mm+1).padStart(2,'0')+'.'+(+mm===12?+yy+1:yy)};
+ return {label,title:'FIȘĂ CHELTUIELI AUTO',sub:'Tipul autoturismului/nr. înmatriculare: DACIA LOGAN: B - 95 - SEP | Conducător Auto: NICOLAE STARCIUC',headers,rows,summary,footer:'Total general: '+summary.grand+' lei'};
+}
+function calcHTML(r){if(r.summary){const x=r.summary;return `<table class="expense-summary"><tr><td colspan="5"><b>Total</b></td><td>${esc(x.liters)}</td><td>${esc(x.card)}</td><td>${esc(x.personal)}</td><td>${esc(x.cash)}</td></tr><tr><td colspan="8"><b>Total general: ${esc(r.label)}</b></td><td><b>${esc(x.grand)}</b></td></tr><tr><td colspan="8"><b>Achitat cu card personal/cash</b></td><td><b>${esc(x.paid)}</b></td></tr><tr><td colspan="8"><b>Diferența de primit: ${esc(r.label)}</b></td><td><b>${esc(x.difference)}</b></td></tr></table><div style="margin-top:12px"><b>Recapitulație</b></div><table class="expense-summary"><tr><td>Avans spre decontare anterior</td><td>${esc(x.advance)}</td></tr><tr><td>Diferență de primit/restituit:</td><td><b>${esc(x.balance)}</b></td></tr></table><div style="margin-top:5px">Data întocmirii, <b>${esc(x.date)}</b></div><div style="margin-top:18px">Semnătura conducător auto</div>`}if(!r.calculation)return '<div class="calculation">'+esc(r.footer)+'</div>';const x=r.calculation;return `<table class="calc-grid"><tr><td class="lbl">Consum specific</td><td class="lbl">Total KM</td><td class="val">${esc(x.total)}</td><td class="lbl">Din care:</td><td>în oraș</td><td class="val">${esc(x.city)}</td></tr><tr><td class="red">${esc(x.specific)}</td><td colspan="3"></td><td>în exterior</td><td class="val">${esc(x.outside)}</td></tr><tr><td colspan="5" class="right">Calculație:</td><td class="right val">${esc(x.value)}</td></tr><tr><td colspan="6" class="center">(nr. de km x 10% consum specific x preț combustibil)</td></tr><tr><td colspan="3" class="center">Calculat,</td><td colspan="3" class="center">Șofer,</td></tr></table>`}
+function buildSheet(month,kind){let r=reportData(month,kind);return '<div class="sheet"><div class="company">SC SEPTEMBRIE CONSULTING SRL</div><div class="month">Luna '+esc(r.label)+'</div><h2>'+esc(r.title)+'</h2><div>'+esc(r.sub)+'</div>'+docTable(r.headers,r.rows)+calcHTML(r)+'</div>'}
+function documents(){let month=new Date().toISOString().slice(0,7);h.innerHTML=`<div class="m"><div class="s"><h2>Generare documente</h2><label>Luna</label><input type="month" id="docMonth" value="${month}" onchange="previewDoc()"><label>Document</label><select id="docKind" onchange="previewDoc()"><option value="trips">Foaie de parcurs</option><option value="expenses">Fișă de cheltuieli auto</option></select><button class="p" onclick="previewDoc()">Previzualizare</button><button class="q" onclick="exportExcel()">Export Excel (.xlsx)</button><button class="q" onclick="printDoc()">Salvează / distribuie PDF</button><button class="q" onclick="closeModal()">Închide</button><div id="docPreview" style="overflow-x:auto;font-size:11px"></div></div></div>`;previewDoc()}
+function previewDoc(){$('docPreview').innerHTML=buildSheet($('docMonth').value,$('docKind').value)}
+function reportCSS(){return `body{font-family:Arial,sans-serif;font-size:10px;color:#111}.sheet{max-width:100%;margin:auto}.company{font-weight:bold}.month{margin:7px 0}h2{text-align:center;font-size:16px;margin:10px 0}.report{width:100%;border-collapse:collapse;margin:12px 0}.report th,.report td{border:1px solid #333;padding:4px;vertical-align:top}.report th{background:#fff}.calculation{margin-top:10px;border-top:1px solid #333;padding-top:7px;font-weight:bold}.calculation p{margin:5px 0}.calc-grid{border-collapse:collapse;width:100%;margin-top:0;font-size:10px}.calc-grid td{border:1px solid #222;padding:3px 5px}.calc-grid .lbl{font-weight:bold}.calc-grid .val{font-weight:bold;text-align:right}.calc-grid .red{color:red;font-weight:bold}.calc-grid .right{text-align:right}.calc-grid .center{text-align:center}.expense-summary{width:100%;border-collapse:collapse}.expense-summary td{border:1px solid #222;padding:4px}.expense-summary td:last-child{text-align:right}@page{size:A4 landscape;margin:8mm}`}
+function reportHTML(){return '<!doctype html><html><head><meta charset="utf-8"><style>'+reportCSS()+' .sheet{background:white;color:#111;padding:0;min-width:0}.report{border-collapse:collapse;width:100%;table-layout:fixed;font-size:8px;overflow-wrap:anywhere}.report th,.report td{border:1px solid #444;padding:4px}.report th{background:#eee}.sheet h2{text-align:center}.company{font-weight:bold}.sign{margin-top:22px}</style></head><body>'+buildSheet($('docMonth').value,$('docKind').value)+'</body></html>'}
+// ZIP/OOXML minimal: produces a genuine XLSX workbook, not HTML renamed to XLS.
+function crc32(b){let c=0xffffffff;for(let x of b){c^=x;for(let i=0;i<8;i++)c=(c>>>1)^((c&1)?0xedb88320:0)}return(c^0xffffffff)>>>0}
+function zipStore(files){const enc=new TextEncoder(),out=[],central=[];let offset=0;
+ const u16=x=>[x&255,(x>>>8)&255],u32=x=>[x&255,(x>>>8)&255,(x>>>16)&255,(x>>>24)&255];
+ for(const [name,content] of files){let n=enc.encode(name),v=typeof content==='string'?enc.encode(content):content,crc=crc32(v);let local=new Uint8Array([...u32(0x04034b50),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(v.length),...u32(v.length),...u16(n.length),...u16(0),...n]);out.push(local,v);central.push(new Uint8Array([...u32(0x02014b50),...u16(20),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(v.length),...u32(v.length),...u16(n.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(offset),...n]));offset+=local.length+v.length}
+ let clen=central.reduce((a,x)=>a+x.length,0);let end=new Uint8Array([...u32(0x06054b50),...u16(0),...u16(0),...u16(files.length),...u16(files.length),...u32(clen),...u32(offset),...u16(0)]);let result=new Uint8Array(offset+clen+end.length);let pos=0;for(let x of [...out,...central,end]){result.set(x,pos);pos+=x.length}return result}
+function xml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]))}
+function excelColumn(n){let s='';for(n++;n;n=Math.floor((n-1)/26))s=String.fromCharCode(65+(n-1)%26)+s;return s}
+function makeXlsx(r){const tail=r.calculation?[['Consum specific','Total KM',r.calculation.total,'Din care:','în oraș',r.calculation.city],[r.calculation.specific,'','','','în exterior',r.calculation.outside],['Calculație:','','','','',r.calculation.value],['Calculat,','','Șofer,']]:r.summary?[['Total','','','','',r.summary.liters,r.summary.card,r.summary.personal,r.summary.cash],['Total general',r.label,'','','','','','',r.summary.grand],['Achitat cu card personal/cash','','','','','','','',r.summary.paid],['Diferența de primit',r.label,'','','','','','',r.summary.difference],['Recapitulație'],['Avans spre decontare anterior',r.summary.advance],['Diferență de primit/restituit',r.summary.balance],['Data întocmirii',r.summary.date],['Semnătura conducător auto']]:[[r.footer]];let table=[['SC SEPTEMBRIE CONSULTING SRL'],[r.title+' - '+r.label],[r.sub],[],r.headers,...r.rows,[],...tail];
+ let body=table.map((row,i)=>'<row r="'+(i+1)+'">'+row.map((v,j)=>'<c r="'+excelColumn(j)+(i+1)+'" t="inlineStr"><is><t>'+xml(v)+'</t></is></c>').join('')+'</row>').join('');
+ const files=[['[Content_Types].xml','<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>'],['_rels/.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],['xl/workbook.xml','<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Raport" sheetId="1" r:id="rId1"/></sheets></workbook>'],['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>'],['xl/worksheets/sheet1.xml','<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"/></sheetViews><sheetData>'+body+'</sheetData></worksheet>']];return zipStore(files)}
+async function exportExcel(){let kind=$('docKind').value,month=$('docMonth').value;await saveFile((kind==='trips'?'Foaie-parcurs-':'Fisa-cheltuieli-')+month+'.xlsx',makeXlsx(reportData(month,kind)),'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')}
+// A4 portrait, black ink, continuous cell borders and one row per journey.
+function pdfText(s){return String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[–—]/g,'-').replace(/[’]/g,"'").replace(/[^\x20-\x7e]/g,'?').replace(/[\\()]/g,'\\$&')}
+function makePdf(r){
+ const W=595.28,H=841.89,L=15,top=816;
+ const ws0=r.headers.length===7?[23,57,68,79,79,96,163]:[26,56,116,54,54,58,77,66,60];
+ const factor=(W-2*L)/ws0.reduce((a,b)=>a+b,0),ws=ws0.map(x=>x*factor),xs=[L];for(const w of ws)xs.push(xs.at(-1)+w);
+ let pages=[],ops=[],y=top;
+ const add=(x,yy,t,size=6,bold=false)=>ops.push('0 g BT /'+(bold?'F2':'F1')+' '+size+' Tf '+x.toFixed(2)+' '+yy.toFixed(2)+' Td ('+pdfText(t)+') Tj ET');
+ const line=(x1,y1,x2,y2)=>ops.push('0 G 0.55 w '+x1.toFixed(2)+' '+y1.toFixed(2)+' m '+x2.toFixed(2)+' '+y2.toFixed(2)+' l S');
+ function wrap(value,w,size){const words=String(value??'').split(/\s+/),result=[];let curr='';for(const word of words){if(!word)continue;let candidate=curr?curr+' '+word:word;if(candidate.length*size*.49<=w){curr=candidate;continue}if(curr)result.push(curr);if(word.length*size*.49>w){let part='';for(const ch of word){if((part+ch).length*size*.49>w&&part){result.push(part);part=''}part+=ch}curr=part}else curr=word}if(curr||!result.length)result.push(curr);return result}
+ function header(){add(L,top,'SC SEPTEMBRIE CONSULTING SRL',8,true);add(L+138,top-18,r.title+' - '+r.label.toUpperCase(),11,true);add(L,top-34,r.sub,6.4);y=top-45;line(L,y,xs.at(-1),y);for(let j=0;j<r.headers.length;j++)wrap(r.headers[j],ws[j]-6,5.6).slice(0,4).forEach((t,k)=>add(xs[j]+2,y-10-k*9,t,5.7,true));y-=43;line(L,y,xs.at(-1),y);for(const x of xs)line(x,y+43,x,y)}
+ header();for(const row of r.rows){const size=5.8,parts=row.map((v,j)=>wrap(v,ws[j]-4,size)),rh=Math.max(19,Math.max(...parts.map(x=>x.length))*8+6);if(y-rh<(r.calculation?112:r.summary?194:46)){pages.push(ops.join('\n'));ops=[];header()}for(let j=0;j<row.length;j++)parts[j].forEach((t,k)=>add(xs[j]+2,y-9-k*8,t,size,j===0));const bot=y-rh;line(L,bot,xs.at(-1),bot);for(const x of xs)line(x,y,x,bot);y=bot}
+ if(y<(r.calculation?112:r.summary?194:45)){pages.push(ops.join('\n'));ops=[];header()}
+ if(r.calculation){
+  const q=r.calculation,fw=xs.at(-1)-L,cs=[L,L+fw*.29,L+fw*.46,L+fw*.55,L+fw*.70,L+fw*.84,xs.at(-1)];
+  const row=(height,values,borders=true)=>{const bottom=y-height;if(borders){line(L,y,xs.at(-1),y);line(L,bottom,xs.at(-1),bottom);for(const x of cs)line(x,y,x,bottom)}for(const [col,t,sz,bold] of values)add(cs[col]+3,y-12,t,sz||6.4,!!bold);y=bottom};
+  row(21,[[0,'Consum specific',6.6,true],[1,'Total KM',6.6,true],[2,String(q.total),7,true],[3,'Din care:',6.6,true],[4,'in oras',6.6,false],[5,String(q.city),7,true]]);
+  row(21,[[0,q.specific,7,true],[4,'in exterior',6.6,false],[5,String(q.outside),7,true]]);
+  row(21,[[0,'Calculatie:',7,true],[5,q.value,7,true]]);
+  row(18,[[1,'(nr. de km x 10% consum specific x pret combustibil)',6,false]]);
+  row(20,[[1,'Calculat,',7,false],[4,'Sofer,',7,false]]);
+ }else if(r.summary){const q=r.summary;const items=[['Total',q.liters,q.card,q.personal,q.cash],['Total general',q.grand],['Achitat cu card personal/cash',q.paid],['Diferența de primit',q.difference],['Recapitulație'],['Avans spre decontare anterior',q.advance],['Diferență de primit/restituit',q.balance],['Data întocmirii',q.date],['Semnătura conducător auto']];for(let i=0;i<items.length;i++){const a=items[i],rh=i===4?19:17;if(y-rh<18){pages.push(ops.join('\n'));ops=[];header()}line(L,y,xs.at(-1),y);line(L,y-rh,xs.at(-1),y-rh);line(L,y,L,y-rh);line(xs.at(-1),y,xs.at(-1),y-rh);add(L+4,y-12,a[0],6.7,i<4);if(i===0){for(let j=1;j<5;j++)add(xs[j+4]+3,y-12,a[j],6.2,true)}else if(a[1])add(xs.at(-1)-74,y-12,a[1],7,true);y-=rh}}else add(L,y-17,r.footer,7,true);
+ pages.push(ops.join('\n'));
+ let objs=[''];const obj=x=>(objs.push(x),objs.length-1),f1=obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>'),f2=obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'),pageIds=[];
+ for(const page of pages){const id=obj('<< /Length '+new TextEncoder().encode(page).length+' >>\nstream\n'+page+'\nendstream');pageIds.push([obj(''),id])}const pagesId=obj('');for(const [id,cid] of pageIds)objs[id]='<< /Type /Page /Parent '+pagesId+' 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /Font << /F1 '+f1+' 0 R /F2 '+f2+' 0 R >> >> /Contents '+cid+' 0 R >>';objs[pagesId]='<< /Type /Pages /Kids ['+pageIds.map(x=>x[0]+' 0 R').join(' ')+'] /Count '+pageIds.length+' >>';const catalog=obj('<< /Type /Catalog /Pages '+pagesId+' 0 R >>');let out='%PDF-1.4\n',offsets=[0];for(let i=1;i<objs.length;i++){offsets.push(new TextEncoder().encode(out).length);out+=i+' 0 obj\n'+objs[i]+'\nendobj\n'}const xref=new TextEncoder().encode(out).length;out+='xref\n0 '+objs.length+'\n0000000000 65535 f \n'+offsets.slice(1).map(x=>String(x).padStart(10,'0')+' 00000 n \n').join('')+'trailer\n<< /Size '+objs.length+' /Root '+catalog+' 0 R >>\nstartxref\n'+xref+'\n%%EOF';return new TextEncoder().encode(out)
+}
+async function printDoc(){let kind=$('docKind').value,month=$('docMonth').value;await saveFile((kind==='trips'?'Foaie-parcurs-':'Fisa-cheltuieli-')+month+'.pdf',makePdf(reportData(month,kind)),'application/pdf')}
+
+render();
+document.addEventListener("deviceready",syncTripNotification);setTimeout(syncTripNotification,700);</script></body></html>
