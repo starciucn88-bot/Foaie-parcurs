@@ -31,10 +31,19 @@ manifest.write_text(s)
 
 gradle = Path('android/app/build.gradle')
 s = gradle.read_text()
-s, n = re.subn(r'\bversionCode\s+\d+', 'versionCode 11314', s, count=1)
+s, n = re.subn(r'\bversionCode\s+\d+', 'versionCode 11315', s, count=1)
 if n != 1:
     raise RuntimeError('versionCode nu a fost gasit')
 s, n = re.subn(r'\bversionName\s+["\'][^"\']+["\']', 'versionName "1.3.14"', s, count=1)
 if n != 1:
     raise RuntimeError('versionName nu a fost gasit')
 gradle.write_text(s)
+
+# Replace only Android launcher images; no changes to web interface or stored data.
+res = base / 'res'
+assets = Path('assets/launcher')
+for directory in sorted(assets.glob('mipmap-*')):
+    target = res / directory.name
+    target.mkdir(parents=True, exist_ok=True)
+    for icon in directory.glob('*.png'):
+        shutil.copyfile(icon, target / icon.name)
