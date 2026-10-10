@@ -1,0 +1,82 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Install dependencies
+        run: npm install
+      - name: Create Android project
+        run: npx cap add android
+      - name: Sync web app
+        run: npx cap sync android
+      - name: Install native trip notification
+        run: python3 .github/install-trip-notification.py
+
+      - name: Restore signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          printf '%s' "$KEYSTORE_BASE64" | sed '/-----BEGIN CERTIFICATE-----/d; /-----END CERTIFICATE-----/d' | base64 --decode > android/app/foaie-parcurs-release.jks
+          test -s android/app/foaie-parcurs-release.jks
+          chmod 600 android/app/foaie-parcurs-release.jks
+      - name: Configure release signing and version
+        env:
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          cat >> android/app/build.gradle <<'GRADLE'
+
+          android {
+              signingConfigs {
+                  release {
+                      storeFile file('foaie-parcurs-release.jks')
+                      storePassword System.getenv('STORE_PASSWORD')
+                      keyAlias System.getenv('KEY_ALIAS')
+                      keyPassword System.getenv('KEY_PASSWORD')
+                  }
+              }
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.release
+                      minifyEnabled false
+                  }
+              }
+              defaultConfig {
+                  versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '2')
+                  versionName '1.3.9'
+              }
+          }
+          GRADLE
+      - name: Build signed APK
+        working-directory: android
+        env:
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: ./gradlew assembleRelease
+      - name: Verify APK signature
+        run: |
+          "$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)/apksigner" verify --verbose android/app/build/outputs/apk/release/app-release.apk
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Foaie-parcurs-v1.3.9-APK-semnat
+          path: android/app/build/outputs/apk/release/app-release.apk
