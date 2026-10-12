@@ -1,3 +1,4 @@
+
 name: Build Android APK
 on:
   workflow_dispatch:
@@ -17,6 +18,11 @@ jobs:
           java-version: '21'
       - name: Install dependencies
         run: npm install
+      - name: Bundle offline PDF viewer
+        run: |
+          mkdir -p www/pdfjs
+          cp node_modules/pdfjs-dist/build/pdf.min.js www/pdfjs/pdf.min.js
+          cp node_modules/pdfjs-dist/build/pdf.worker.min.js www/pdfjs/pdf.worker.min.js
       - name: Create Android project
         run: npx cap add android
       - name: Sync web app
