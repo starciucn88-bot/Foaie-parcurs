@@ -1,4 +1,4 @@
-<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Foaie de parcurs</title><style>body{font-family:system-ui;background:#f4f6f8;margin:0;color:#17202a}.w{max-width:620px;margin:auto;padding:18px}.b{width:100%;padding:20px;margin:8px 0;border:0;border-radius:16px;background:white;text-align:left;font-size:18px;font-weight:700}.b small{display:block;color:#667;font-weight:400}.m{position:fixed;inset:0;background:#0007;display:flex;align-items:flex-end}.s{background:white;width:100%;padding:18px;border-radius:20px 20px 0 0;max-height:92vh;overflow:auto}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:11px;margin:4px 0 10px;box-sizing:border-box}.p,.q{width:100%;padding:13px;margin-top:8px;border:0;border-radius:10px}.p{background:#17202a;color:white}.q{background:#e9edf0}label{font-size:12px;color:#667}.v{text-align:center;color:#889;font-size:11px;margin-top:20px} .sheet{background:white;color:#111;padding:0;min-width:0}.report{border-collapse:collapse;width:100%;table-layout:fixed;font-size:8px;overflow-wrap:anywhere}.report th,.report td{border:1px solid #444;padding:4px}.report th{background:#eee}.sheet h2{text-align:center}.company{font-weight:bold}.sign{margin-top:22px}
+<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Foaie de parcurs</title><style>body{font-family:system-ui;background:#f4f6f8;margin:0;color:#17202a}.w{max-width:620px;margin:auto;padding:18px}.b{width:100%;padding:20px;margin:8px 0;border:0;border-radius:16px;background:white;text-align:left;font-size:18px;font-weight:700}.b small{display:block;color:#667;font-weight:400}.m{position:fixed;inset:0;background:#0007;display:flex;align-items:flex-end}.s{background:white;width:100%;padding:18px;border-radius:20px 20px 0 0;max-height:92vh;overflow:auto}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:11px;margin:4px 0 10px;box-sizing:border-box}.p,.q{width:100%;padding:13px;margin-top:8px;border:0;border-radius:10px}.p{background:#17202a;color:white}.q{background:#e9edf0}label{font-size:12px;color:#667}.v{text-align:center;color:#889;font-size:11px;margin-top:20px} .sheet{background:white;color:#111;padding:0;min-width:0}.report{border-collapse:collapse;width:100%;table-layout:fixed;font-size:13.333px;overflow-wrap:anywhere}.report th,.report td{border:1px solid #444;padding:4px}.report th{background:#eee}.sheet h2{text-align:center}.company{font-weight:bold}.sign{margin-top:22px}
 :root{color-scheme:light;--ink:#192838;--muted:#607287;--line:#dbe3ec;--accent:#146a91}
 body{background:#eef2f6;color:var(--ink)}.w{max-width:620px;padding:18px 16px 30px}
 h1{font-size:25px;letter-spacing:-.7px;margin:10px 0 8px}#a{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;color:#31536a;font-weight:600;margin:12px 0 17px}
@@ -9,7 +9,7 @@ h1{font-size:25px;letter-spacing:-.7px;margin:10px 0 8px}#a{background:#fff;bord
 input,select,textarea{border:1px solid #cbd6e2;border-radius:10px;background:white;min-height:44px;color:#172839}
 input:focus,select:focus,textarea:focus{outline:2px solid #77b5d5;outline-offset:1px}
 .p,.q{min-height:45px;border-radius:11px;font-weight:650}.p{background:#12698f}.q{background:#e9eef3;color:#1d3447}.v{margin-top:22px}
-.report{table-layout:fixed;font-size:9px}.report th,.report td{padding:3px;overflow-wrap:anywhere;vertical-align:top;line-height:1.28}
+.report{table-layout:fixed;font-size:13.333px}.report th,.report td{padding:3px;overflow-wrap:anywhere;vertical-align:top;line-height:1.28}
 .report.trips th:nth-child(1),.report.trips td:nth-child(1){width:4%}.report.trips th:nth-child(2),.report.trips td:nth-child(2){width:10%}
 .report.trips th:nth-child(3),.report.trips td:nth-child(3){width:12%}.report.trips th:nth-child(4),.report.trips td:nth-child(4){width:14%}
 .report.trips th:nth-child(5),.report.trips td:nth-child(5){width:14%}.report.trips th:nth-child(6),.report.trips td:nth-child(6){width:17%}
@@ -48,7 +48,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid #77b5d5;outline-offset
 .place-row{display:flex;align-items:center;gap:5px;justify-content:space-between;border-bottom:1px solid #eef2f6;padding:7px 0}
 .place-row span{font-size:14px;overflow-wrap:anywhere;flex:1}
 .place-row button{border:1px solid #dbe3ec;background:#f8fafc;border-radius:7px;padding:6px;font-size:12px;min-width:44px}
-</style></head><body><div class="w"><header class="top"><div id="vehiclePlate" class="plate">AUTOVEHICUL</div><p id="a">Nicio deplasare activă</p><button id="vehicleAlerts" class="alerts" hidden onclick="showAlerts()" type="button">Atenționări</button></header><main class="actions"><button class="b" onclick="start()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="butt" stroke-linejoin="bevel" aria-hidden="true"><circle cx="4.4" cy="19.6" r="2.6"/><circle cx="19.6" cy="4.4" r="2.6"/><path d="M4.4 19.6 H16.2 L7.8 4.4 H19.6"/></svg><span>Înregistrează plecare</span></button><button class="b" onclick="stop()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Înregistrează sosire</span></button><button class="b" onclick="fuel()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v17M3 21h13M4 10h11M15 7h2l3 3v8a2 2 0 0 0 4 0v-6l-3-3"/></svg><span>Alimentare</span></button><button class="b" onclick="expense()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 6.5a5.5 5.5 0 0 0-7 7L2.7 18.3a2 2 0 0 0 3 3l4.8-4.8a5.5 5.5 0 0 0 7-7l-4 4-3-3 4-4Z"/></svg><span>Cheltuială auto</span></button><button class="b" onclick="records()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg><span>Înregistrări</span></button><button class="b" onclick="documents()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h8l5 5v14a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path d="M14 2v6h5M8 13h7M8 17h7"/></svg><span>Generare documente</span></button></main><div class="secondary-actions"><button class="b" onclick="vehicleDetails()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 7 6h10l2 5M4 16v3M20 16v3M3 11h18v6H3zM6 14h2m8 0h2"/></svg><span>Date și documente vehicul</span></button><button class="b" onclick="backupRestoreMenu()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 2 4 3 8 3 1 0 2-.1 3-.3M20 5v8M4 12c0 2 4 3 8 3"/><circle cx="18" cy="18" r="4"/><path d="M18 15v6m-2-4h4"/></svg><span>Backup și restaurare</span></button></div><div class="v">v1.3.19 by NS</div></div><input hidden id="cam" type="file" accept="image/*" capture="environment"><input hidden id="doc" type="file" accept="image/*,application/pdf"><input hidden id="restoreFile" type="file" accept=".json,application/json"><div id="h"></div><script src="pdfjs/pdf.min.js"></script><script>
+</style></head><body><div class="w"><header class="top"><div id="vehiclePlate" class="plate">AUTOVEHICUL</div><p id="a">Nicio deplasare activă</p><button id="vehicleAlerts" class="alerts" hidden onclick="showAlerts()" type="button">Atenționări</button></header><main class="actions"><button class="b" onclick="start()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="butt" stroke-linejoin="bevel" aria-hidden="true"><circle cx="4.4" cy="19.6" r="2.6"/><circle cx="19.6" cy="4.4" r="2.6"/><path d="M4.4 19.6 H16.2 L7.8 4.4 H19.6"/></svg><span>Înregistrează plecare</span></button><button class="b" onclick="stop()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Înregistrează sosire</span></button><button class="b" onclick="fuel()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v17M3 21h13M4 10h11M15 7h2l3 3v8a2 2 0 0 0 4 0v-6l-3-3"/></svg><span>Alimentare</span></button><button class="b" onclick="expense()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 6.5a5.5 5.5 0 0 0-7 7L2.7 18.3a2 2 0 0 0 3 3l4.8-4.8a5.5 5.5 0 0 0 7-7l-4 4-3-3 4-4Z"/></svg><span>Cheltuială auto</span></button><button class="b" onclick="records()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h12M9 12h12M9 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg><span>Înregistrări</span></button><button class="b" onclick="documents()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h8l5 5v14a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/><path d="M14 2v6h5M8 13h7M8 17h7"/></svg><span>Generare documente</span></button></main><div class="secondary-actions"><button class="b" onclick="vehicleDetails()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 7 6h10l2 5M4 16v3M20 16v3M3 11h18v6H3zM6 14h2m8 0h2"/></svg><span>Date și documente vehicul</span></button><button class="b" onclick="backupRestoreMenu()"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 2 4 3 8 3 1 0 2-.1 3-.3M20 5v8M4 12c0 2 4 3 8 3"/><circle cx="18" cy="18" r="4"/><path d="M18 15v6m-2-4h4"/></svg><span>Backup și restaurare</span></button></div><div class="v">v1.3.20 by NS</div></div><input hidden id="cam" type="file" accept="image/*" capture="environment"><input hidden id="doc" type="file" accept="image/*,application/pdf"><input hidden id="restoreFile" type="file" accept=".json,application/json"><div id="h"></div><script src="pdfjs/pdf.min.js"></script><script>
 const K='fp_v130';let d=JSON.parse(localStorage.getItem(K)||'null')||{trips:[],fuel:[],expenses:[],places:['Râșnov','Brașov','Pașcani'],lastKm:null,active:null};
 // Preserve the saved journeys. Old built-in purposes are no longer offered for new journeys.
 const legacyPurposes=new Set(['Deplasare la șantier','Activitate șantier','Activitate birou','Întoarcere']);
@@ -310,7 +310,40 @@ async function saveFile(name,bytes,mime){
  download(name,new Blob([bytes],{type:mime}),mime);
 }
 function bytesToBase64(bytes){let s='';for(let i=0;i<bytes.length;i+=8192)s+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(s)}
-async function backup(){try{const docs={};for(const key of await docList()){const x=await docGet(key);docs[key]={name:x.name,type:x.type,updated:x.updated,data:await du(x.blob)}}const data=new TextEncoder().encode(JSON.stringify({app:'foaie-parcurs',version:2,data:d,vehicleDocuments:docs},null,2));await saveFile('foaie-parcurs-backup-'+new Date().toISOString().slice(0,10)+'.json',data,'application/json')}catch(e){alert('Backup nereușit: '+e.message)}}
+async function saveBackupOnPhone(name,bytes){
+ const cap=window.Capacitor,plugin=cap?.Plugins?.NSFileSave;
+ if(cap?.isNativePlatform?.()){
+   if(!plugin?.save)throw Error('Funcția Android „Salvează ca” nu este disponibilă în acest APK.');
+   const fs=cap.Plugins?.Filesystem;
+   if(!fs)throw Error('Stocarea temporară nu este disponibilă.');
+   const tmp=await fs.writeFile({path:name,data:bytesToBase64(bytes),directory:'CACHE'});
+   let result;
+   try{result=await plugin.save({name,mime:'application/json',cacheUri:tmp.uri});}
+   finally{try{await fs.deleteFile({path:name,directory:'CACHE'})}catch(_){}}
+   if(result?.cancelled)return false;
+   if(!result?.saved)throw Error('Fișierul nu a fost confirmat ca salvat.');
+   alert('Copia de siguranță a fost salvată în folderul ales pe telefon.');
+   return true;
+ }
+ if(typeof window.showSaveFilePicker==='function'){
+   const handle=await window.showSaveFilePicker({suggestedName:name,types:[{description:'Backup NS AutoBook',accept:{'application/json':['.json']}}]});
+   const writable=await handle.createWritable();await writable.write(new Blob([bytes],{type:'application/json'}));await writable.close();
+   return true;
+ }
+ download(name,new Blob([bytes],{type:'application/json'}),'application/json');
+ return true;
+}
+async function backup(){
+ try{
+   const docs={};
+   for(const key of await docList()){
+     const x=await docGet(key);
+     docs[key]={name:x.name,type:x.type,updated:x.updated,data:await du(x.blob)};
+   }
+   const bytes=new TextEncoder().encode(JSON.stringify({app:'foaie-parcurs',version:2,data:d,vehicleDocuments:docs},null,2));
+   await saveBackupOnPhone('foaie-parcurs-backup-'+new Date().toISOString().slice(0,10)+'.json',bytes);
+ }catch(e){if(e?.name!=='AbortError')alert('Backup nereușit: '+e.message)}
+}
 function restore(){if(!confirm('Restaurarea înlocuiește toate înregistrările actuale. Ai salvat o copie de siguranță?'))return;pick('restoreFile',async f=>{if(!f)return;try{const z=JSON.parse(await f.text());if(z.app!=='foaie-parcurs'||!z.data||!Array.isArray(z.data.trips)||!Array.isArray(z.data.fuel)||!Array.isArray(z.data.expenses))throw Error('Fișier invalid');const docs=[];for(const [key,x] of Object.entries(z.vehicleDocuments||{})){if(!vehicleDocTypes.some(t=>t[0]===key)||!x.data?.startsWith('data:'))throw Error('Document invalid în backup');const res=await fetch(x.data);docs.push([key,{name:x.name,type:x.type,updated:x.updated,blob:await res.blob()}])}for(const key of await docList())await docDelete(key);for(const [key,x] of docs)await docPut(key,x);d=z.data;d.places=uniquePlaces(d.places||[]);d.purposes=Array.isArray(d.purposes)?d.purposes.filter(x=>!legacyPurposes.has(x)):[];d.purposeFromOptions=d.purposeFromOptions||[];d.purposeToOptions=d.purposeToOptions||[];save();alert('Date restaurate.')}catch(e){alert('Nu s-a putut restaura: '+e.message)}})}
 function dateKey(s){let x=dateObj(s);return x.getTime()?x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'):''}
 function paymentOf(x){return x.payment||'card_combustibil'}
@@ -363,10 +396,10 @@ function reportData(month,kind){
 }
 function calcHTML(r){if(r.summary){const x=r.summary;return `<table class="expense-summary"><tr><td colspan="5"><b>Total</b></td><td>${esc(x.liters)}</td><td>${esc(x.card)}</td><td>${esc(x.personal)}</td><td>${esc(x.cash)}</td></tr><tr><td colspan="8"><b>Total general: ${esc(r.label)}</b></td><td><b>${esc(x.grand)}</b></td></tr><tr><td colspan="8"><b>Achitat cu card personal/cash</b></td><td><b>${esc(x.paid)}</b></td></tr><tr><td colspan="8"><b>Diferența de primit: ${esc(r.label)}</b></td><td><b>${esc(x.difference)}</b></td></tr></table><div style="margin-top:12px"><b>Recapitulație</b></div><table class="expense-summary"><tr><td>Avans spre decontare anterior</td><td>${esc(x.advance)}</td></tr><tr><td>Diferență de primit/restituit:</td><td><b>${esc(x.balance)}</b></td></tr></table><div style="margin-top:5px">Data întocmirii, <b>${esc(x.date)}</b></div><div style="margin-top:18px">Semnătura conducător auto</div>`}if(!r.calculation)return '<div class="calculation">'+esc(r.footer)+'</div>';const x=r.calculation;return `<table class="calc-grid"><tr><td class="lbl">Consum specific</td><td class="lbl">Total KM</td><td class="val">${esc(x.total)}</td><td class="lbl">Din care:</td><td>în oraș</td><td class="val">${esc(x.city)}</td></tr><tr><td class="red">${esc(x.specific)}</td><td colspan="3"></td><td>în exterior</td><td class="val">${esc(x.outside)}</td></tr><tr><td colspan="5" class="right">Calculație:</td><td class="right val">${esc(x.value)}</td></tr><tr><td colspan="6" class="center">(nr. de km x 10% consum specific x preț combustibil)</td></tr><tr><td colspan="3" class="center">Calculat,</td><td colspan="3" class="center">Șofer,</td></tr></table>`}
 function buildSheet(month,kind){let r=reportData(month,kind);return '<div class="sheet"><div class="company">SC SEPTEMBRIE CONSULTING SRL</div><div class="month">Luna '+esc(r.label)+'</div><h2>'+esc(r.title)+'</h2><div>'+esc(r.sub)+'</div>'+docTable(r.headers,r.rows)+calcHTML(r)+'</div>'}
-function documents(){let month=new Date().toISOString().slice(0,7);h.innerHTML=`<div class="m"><div class="s"><h2>Generare documente</h2><label>Luna</label><input type="month" id="docMonth" value="${month}" onchange="previewDoc()"><label>Document</label><select id="docKind" onchange="previewDoc()"><option value="trips">Foaie de parcurs</option><option value="expenses">Fișă de cheltuieli auto</option></select><button class="p" onclick="previewDoc()">Previzualizare</button><button class="q" onclick="exportExcel()">Export Excel (.xlsx)</button><button class="q" onclick="printDoc()">Salvează / distribuie PDF</button><div id="docPreview" style="overflow-x:auto;font-size:11px"></div></div></div>`;previewDoc()}
+function documents(){let month=new Date().toISOString().slice(0,7);h.innerHTML=`<div class="m"><div class="s"><h2>Generare documente</h2><label>Luna</label><input type="month" id="docMonth" value="${month}" onchange="previewDoc()"><label>Document</label><select id="docKind" onchange="previewDoc()"><option value="trips">Foaie de parcurs</option><option value="expenses">Fișă de cheltuieli auto</option></select><button class="p" onclick="previewDoc()">Previzualizare</button><button class="q" onclick="exportExcel()">Export Excel (.xlsx)</button><button class="q" onclick="printDoc()">Salvează / distribuie PDF</button><div id="docPreview" style="overflow-x:auto;font-size:13.333px"></div></div></div>`;previewDoc()}
 function previewDoc(){$('docPreview').innerHTML=buildSheet($('docMonth').value,$('docKind').value)}
-function reportCSS(){return `body{font-family:Arial,sans-serif;font-size:10px;color:#111}.sheet{max-width:100%;margin:auto}.company{font-weight:bold}.month{margin:7px 0}h2{text-align:center;font-size:16px;margin:10px 0}.report{width:100%;border-collapse:collapse;margin:12px 0}.report th,.report td{border:1px solid #333;padding:4px;vertical-align:top}.report th{background:#fff}.calculation{margin-top:10px;border-top:1px solid #333;padding-top:7px;font-weight:bold}.calculation p{margin:5px 0}.calc-grid{border-collapse:collapse;width:100%;margin-top:0;font-size:10px}.calc-grid td{border:1px solid #222;padding:3px 5px}.calc-grid .lbl{font-weight:bold}.calc-grid .val{font-weight:bold;text-align:right}.calc-grid .red{color:red;font-weight:bold}.calc-grid .right{text-align:right}.calc-grid .center{text-align:center}.expense-summary{width:100%;border-collapse:collapse}.expense-summary td{border:1px solid #222;padding:4px}.expense-summary td:last-child{text-align:right}@page{size:A4 landscape;margin:8mm}`}
-function reportHTML(){return '<!doctype html><html><head><meta charset="utf-8"><style>'+reportCSS()+' .sheet{background:white;color:#111;padding:0;min-width:0}.report{border-collapse:collapse;width:100%;table-layout:fixed;font-size:8px;overflow-wrap:anywhere}.report th,.report td{border:1px solid #444;padding:4px}.report th{background:#eee}.sheet h2{text-align:center}.company{font-weight:bold}.sign{margin-top:22px}#vehicleAlerts{width:100%;text-align:left;cursor:pointer;border:1px solid #d8a0a0;background:#fff4f4;color:#a52424;font-weight:700;border-radius:12px;padding:12px 14px;margin:8px 0}#vehicleAlerts[hidden]{display:none}</style></head><body>'+buildSheet($('docMonth').value,$('docKind').value)+'</body></html>'}
+function reportCSS(){return `body{font-family:Arial,sans-serif;font-size:13.333px;color:#111}.sheet{max-width:100%;margin:auto}.company{font-weight:bold}.month{margin:7px 0}h2{text-align:center;font-size:16px;margin:10px 0}.report{width:100%;border-collapse:collapse;margin:12px 0}.report th,.report td{border:1px solid #333;padding:4px;vertical-align:top}.report th{background:#fff}.calculation{margin-top:10px;border-top:1px solid #333;padding-top:7px;font-weight:bold}.calculation p{margin:5px 0}.calc-grid{border-collapse:collapse;width:100%;margin-top:0;font-size:13.333px}.calc-grid td{border:1px solid #222;padding:3px 5px}.calc-grid .lbl{font-weight:bold}.calc-grid .val{font-weight:bold;text-align:right}.calc-grid .red{color:red;font-weight:bold}.calc-grid .right{text-align:right}.calc-grid .center{text-align:center}.expense-summary{width:100%;border-collapse:collapse}.expense-summary td{border:1px solid #222;padding:4px}.expense-summary td:last-child{text-align:right}@page{size:A4 portrait;margin:8mm}`}
+function reportHTML(){return '<!doctype html><html><head><meta charset="utf-8"><style>'+reportCSS()+' .sheet{background:white;color:#111;padding:0;min-width:0}.report{border-collapse:collapse;width:100%;table-layout:fixed;font-size:13.333px;overflow-wrap:anywhere}.report th,.report td{border:1px solid #444;padding:4px}.report th{background:#eee}.sheet h2{text-align:center}.company{font-weight:bold}.sign{margin-top:22px}#vehicleAlerts{width:100%;text-align:left;cursor:pointer;border:1px solid #d8a0a0;background:#fff4f4;color:#a52424;font-weight:700;border-radius:12px;padding:12px 14px;margin:8px 0}#vehicleAlerts[hidden]{display:none}</style></head><body>'+buildSheet($('docMonth').value,$('docKind').value)+'</body></html>'}
 // ZIP/OOXML minimal: produces a genuine XLSX workbook, not HTML renamed to XLS.
 function crc32(b){let c=0xffffffff;for(let x of b){c^=x;for(let i=0;i<8;i++)c=(c>>>1)^((c&1)?0xedb88320:0)}return(c^0xffffffff)>>>0}
 function zipStore(files){const enc=new TextEncoder(),out=[],central=[];let offset=0;
@@ -380,32 +413,118 @@ function makeXlsx(r){const tail=r.calculation?[['Consum specific','Total KM',r.c
  const files=[['[Content_Types].xml','<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>'],['_rels/.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'],['xl/workbook.xml','<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Raport" sheetId="1" r:id="rId1"/></sheets></workbook>'],['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>'],['xl/worksheets/sheet1.xml','<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"/></sheetViews><sheetData>'+body+'</sheetData></worksheet>']];return zipStore(files)}
 async function exportExcel(){let kind=$('docKind').value,month=$('docMonth').value;await saveFile((kind==='trips'?'Foaie-parcurs-':'Fisa-cheltuieli-')+month+'.xlsx',makeXlsx(reportData(month,kind)),'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')}
 // A4 portrait, black ink, continuous cell borders and one row per journey.
-function pdfText(s){return String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[–—]/g,'-').replace(/[’]/g,"'").replace(/[^\x20-\x7e]/g,'?').replace(/[\\()]/g,'\\$&')}
+function pdfText(s){return String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[–—·•]/g,'-').replace(/[’]/g,"'").replace(/[^\x20-\x7e]/g,'?').replace(/[\\()]/g,'\\$&')}
 function makePdf(r){
- const W=595.28,H=841.89,L=17,top=824;
- const ws0=r.headers.length===7?[24,58,72,70,70,112,159]:[26,56,116,54,54,58,77,66,60];
- const factor=(W-2*L)/ws0.reduce((a,b)=>a+b,0),ws=ws0.map(x=>x*factor),xs=[L];for(const w of ws)xs.push(xs.at(-1)+w);
+ const W=595.28,H=841.89,L=17,R=17,top=H-25,bottom=27;
+ const ws0=r.headers.length===7?[31,72,94,92,92,130,150]:[35,66,130,70,61,72,82,75,75];
+ const scale=(W-L-R)/ws0.reduce((a,b)=>a+b,0),ws=ws0.map(x=>x*scale),xs=[L];
+ for(const w of ws)xs.push(xs[xs.length-1]+w);
  let pages=[],ops=[],y=top;
- const add=(x,yy,t,size=6,bold=false)=>ops.push('0 g BT /'+(bold?'F2':'F1')+' '+size+' Tf '+x.toFixed(2)+' '+yy.toFixed(2)+' Td ('+pdfText(t)+') Tj ET');
+ const add=(x,yy,t,size=10,bold=false)=>ops.push('0 g BT /'+(bold?'F2':'F1')+' '+size+' Tf '+x.toFixed(2)+' '+yy.toFixed(2)+' Td ('+pdfText(t)+') Tj ET');
  const line=(x1,y1,x2,y2)=>ops.push('0 G 0.55 w '+x1.toFixed(2)+' '+y1.toFixed(2)+' m '+x2.toFixed(2)+' '+y2.toFixed(2)+' l S');
- function wrap(value,w,size){const words=String(value??'').split(/\s+/),result=[];let curr='';for(const word of words){if(!word)continue;let candidate=curr?curr+' '+word:word;if(candidate.length*size*.49<=w){curr=candidate;continue}if(curr)result.push(curr);if(word.length*size*.49>w){let part='';for(const ch of word){if((part+ch).length*size*.49>w&&part){result.push(part);part=''}part+=ch}curr=part}else curr=word}if(curr||!result.length)result.push(curr);return result}
- function header(){add(L,top,'SC SEPTEMBRIE CONSULTING SRL',8,true);add(L+138,top-18,r.title+' - '+r.label.toUpperCase(),11,true);add(L,top-34,r.sub,6.4);y=top-39;line(L,y,xs.at(-1),y);for(let j=0;j<r.headers.length;j++)wrap(r.headers[j],ws[j]-6,5.6).slice(0,4).forEach((t,k)=>add(xs[j]+2,y-9-k*8,t,5.7,true));y-=35;line(L,y,xs.at(-1),y);for(const x of xs)line(x,y+35,x,y)}
- header();for(const row of r.rows){const size=5.8,parts=row.map((v,j)=>wrap(v,ws[j]-4,size)),rh=Math.max(15,Math.max(...parts.map(x=>x.length))*7+3);if(y-rh<(r.calculation?122:r.summary?194:40)){pages.push(ops.join('\n'));ops=[];header()}for(let j=0;j<row.length;j++)parts[j].forEach((t,k)=>add(xs[j]+2,y-8-k*7,t,size,j===0));const bot=y-rh;line(L,bot,xs.at(-1),bot);for(const x of xs)line(x,y,x,bot);y=bot}
- if(y<(r.calculation?122:r.summary?194:40)){pages.push(ops.join('\n'));ops=[];header()}
+ function wrap(value,w,size=10){
+  const txt=String(value??'').replace(/\s+/g,' ').trim();
+  if(!txt)return [''];
+  const words=txt.split(' '),result=[];let curr='';
+  const fit=t=>t.length*size*0.54<=Math.max(6,w);
+  for(const word of words){
+   const candidate=curr?curr+' '+word:word;
+   if(fit(candidate)){curr=candidate;continue}
+   if(curr){result.push(curr);curr=''}
+   if(fit(word)){curr=word;continue}
+   let part='';for(const ch of word){if(part&&!fit(part+ch)){result.push(part);part=''}part+=ch}curr=part;
+  }
+  if(curr)result.push(curr);
+  return result.length?result:[''];
+ }
+ function header(){
+  add(L,top,'SC SEPTEMBRIE CONSULTING SRL',10,true);
+  add(L,top-22,r.title+' - '+r.label.toUpperCase(),13,true);
+  const subLines=wrap(r.sub,W-L-R,10);
+  subLines.forEach((part,k)=>add(L,top-41-12*k,part,10));
+  y=top-55-12*(subLines.length-1);
+  const heads=r.headers.map((v,j)=>wrap(v,ws[j]-8,10));
+  const h=Math.max(35,Math.max(...heads.map(a=>a.length))*12+11);
+  line(L,y,xs[xs.length-1],y);
+  for(let j=0;j<heads.length;j++){
+   heads[j].forEach((part,k)=>add(xs[j]+4,y-14-12*k,part,10,true));
+   line(xs[j],y,xs[j],y-h);
+  }
+  line(xs[xs.length-1],y,xs[xs.length-1],y-h);
+  y-=h;line(L,y,xs[xs.length-1],y);
+ }
+ function finish(){if(ops.length){pages.push(ops.join('\n'));ops=[]}}
+ function newPage(){finish();header()}
+ header();
+ for(const row of r.rows){
+  const parts=row.map((v,j)=>wrap(v,ws[j]-8,10));
+  const rh=Math.max(23,Math.max(...parts.map(a=>a.length))*12+9);
+  if(y-rh<bottom)newPage();
+  for(let j=0;j<parts.length;j++){
+   parts[j].forEach((t,k)=>add(xs[j]+4,y-14-k*12,t,10,j===0));
+   line(xs[j],y,xs[j],y-rh);
+  }
+  line(xs[xs.length-1],y,xs[xs.length-1],y-rh);
+  y-=rh;line(L,y,xs[xs.length-1],y);
+ }
+ function sectionLine(label,value='',strong=false){
+  const rh=24;
+  if(y-rh<bottom)newPage();
+  line(L,y,xs[xs.length-1],y);
+  line(L,y-rh,xs[xs.length-1],y-rh);
+  line(L,y,L,y-rh);line(xs[xs.length-1],y,xs[xs.length-1],y-rh);
+  add(L+5,y-16,label,10,strong);
+  if(value!==''){
+   const text=String(value);
+   const offset=Math.max(L+300,xs[xs.length-1]-text.length*5.5-8);
+   add(offset,y-16,text,10,true);
+  }
+  y-=rh;
+ }
  if(r.calculation){
-  const q=r.calculation,fw=xs.at(-1)-L,cs=[L,L+fw*.29,L+fw*.46,L+fw*.55,L+fw*.70,L+fw*.84,xs.at(-1)];
-  const row=(height,values,borders=true)=>{const bottom=y-height;if(borders){line(L,y,xs.at(-1),y);line(L,bottom,xs.at(-1),bottom);for(const x of cs)line(x,y,x,bottom)}for(const [col,t,sz,bold] of values)add(cs[col]+3,y-12,t,sz||6.4,!!bold);y=bottom};
-  row(18,[[0,'Consum specific',6.6,true],[1,'Total KM',6.6,true],[2,String(q.total),7,true],[3,'Din care:',6.6,true],[4,'in oras',6.6,false],[5,String(q.city),7,true]]);
-  row(18,[[0,q.specific,7,true],[4,'in exterior',6.6,false],[5,String(q.outside),7,true]]);
-  row(18,[[0,'Calculatie:',7,true],[5,q.value,7,true]]);
-  row(15,[[1,'(nr. de km x 10% consum specific x pret combustibil)',6,false]]);
-  row(17,[[1,'Calculat,',7,false],[4,'Sofer,',7,false]]);
- }else if(r.summary){const q=r.summary;const items=[['Total',q.liters,q.card,q.personal,q.cash],['Total general',q.grand],['Achitat cu card personal/cash',q.paid],['Diferența de primit',q.difference],['Recapitulație'],['Avans spre decontare anterior',q.advance],['Diferență de primit/restituit',q.balance],['Data întocmirii',q.date],['Semnătura conducător auto']];for(let i=0;i<items.length;i++){const a=items[i],rh=i===4?19:17;if(y-rh<18){pages.push(ops.join('\n'));ops=[];header()}line(L,y,xs.at(-1),y);line(L,y-rh,xs.at(-1),y-rh);line(L,y,L,y-rh);line(xs.at(-1),y,xs.at(-1),y-rh);add(L+4,y-12,a[0],6.7,i<4);if(i===0){for(let j=1;j<5;j++)add(xs[j+4]+3,y-12,a[j],6.2,true)}else if(a[1])add(xs.at(-1)-74,y-12,a[1],7,true);y-=rh}}else add(L,y-17,r.footer,7,true);
- pages.push(ops.join('\n'));
- let objs=[''];const obj=x=>(objs.push(x),objs.length-1),f1=obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>'),f2=obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'),pageIds=[];
- for(const page of pages){const id=obj('<< /Length '+new TextEncoder().encode(page).length+' >>\nstream\n'+page+'\nendstream');pageIds.push([obj(''),id])}const pagesId=obj('');for(const [id,cid] of pageIds)objs[id]='<< /Type /Page /Parent '+pagesId+' 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /Font << /F1 '+f1+' 0 R /F2 '+f2+' 0 R >> >> /Contents '+cid+' 0 R >>';objs[pagesId]='<< /Type /Pages /Kids ['+pageIds.map(x=>x[0]+' 0 R').join(' ')+'] /Count '+pageIds.length+' >>';const catalog=obj('<< /Type /Catalog /Pages '+pagesId+' 0 R >>');let out='%PDF-1.4\n',offsets=[0];for(let i=1;i<objs.length;i++){offsets.push(new TextEncoder().encode(out).length);out+=i+' 0 obj\n'+objs[i]+'\nendobj\n'}const xref=new TextEncoder().encode(out).length;out+='xref\n0 '+objs.length+'\n0000000000 65535 f \n'+offsets.slice(1).map(x=>String(x).padStart(10,'0')+' 00000 n \n').join('')+'trailer\n<< /Size '+objs.length+' /Root '+catalog+' 0 R >>\nstartxref\n'+xref+'\n%%EOF';return new TextEncoder().encode(out)
+  const q=r.calculation;
+  sectionLine('CONSUM SPECIFIC',q.specific,true);
+  sectionLine('TOTAL KILOMETRI',String(q.total),true);
+  sectionLine('Din care: in oras / in exterior',String(q.city)+' / '+String(q.outside));
+  sectionLine('Calculatie consum combustibil',q.value,true);
+  sectionLine('Calculat: ____________________      Sofer: ____________________');
+ }else if(r.summary){
+  const q=r.summary;
+  sectionLine('TOTAL COMBUSTIBIL (litri)',q.liters,true);
+  sectionLine('Achitat cu card combustibil / OP',q.card);
+  sectionLine('Achitat cu card personal',q.personal);
+  sectionLine('Achitat numerar',q.cash);
+  sectionLine('TOTAL GENERAL (lei)',q.grand,true);
+  sectionLine('Achitat personal / cash (lei)',q.paid);
+  sectionLine('Diferenta de primit (lei)',q.difference);
+  sectionLine('Avans anterior (lei)',q.advance);
+  sectionLine('Diferenta de primit / restituit',q.balance,true);
+  sectionLine('Data intocmirii',q.date);
+  sectionLine('Semnatura conducatorului auto: ____________________');
+ }else{
+  if(y-24<bottom)newPage();
+  add(L,y-16,r.footer,10,true);
+ }
+ finish();
+ const pageCount=pages.length;
+ pages=pages.map((p,i)=>p+'\n0 g BT /F1 10 Tf '+(W-111).toFixed(2)+' 12 Td (Pagina '+(i+1)+' din '+pageCount+') Tj ET');
+ let objs=[''];const obj=x=>(objs.push(x),objs.length-1);
+ const f1=obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+ const f2=obj('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+ const pageIds=[];
+ for(const page of pages){const cid=obj('<< /Length '+new TextEncoder().encode(page).length+' >>\nstream\n'+page+'\nendstream');pageIds.push([obj(''),cid])}
+ const pagesId=obj('');
+ for(const [pid,cid] of pageIds)objs[pid]='<< /Type /Page /Parent '+pagesId+' 0 R /MediaBox [0 0 '+W+' '+H+'] /Resources << /Font << /F1 '+f1+' 0 R /F2 '+f2+' 0 R >> >> /Contents '+cid+' 0 R >>';
+ objs[pagesId]='<< /Type /Pages /Kids ['+pageIds.map(x=>x[0]+' 0 R').join(' ')+'] /Count '+pageIds.length+' >>';
+ const catalog=obj('<< /Type /Catalog /Pages '+pagesId+' 0 R >>');
+ let out='%PDF-1.4\n',offsets=[0];
+ for(let i=1;i<objs.length;i++){offsets.push(new TextEncoder().encode(out).length);out+=i+' 0 obj\n'+objs[i]+'\nendobj\n'}
+ const xref=new TextEncoder().encode(out).length;
+ out+='xref\n0 '+objs.length+'\n0000000000 65535 f \n'+offsets.slice(1).map(x=>String(x).padStart(10,'0')+' 00000 n \n').join('')+'trailer\n<< /Size '+objs.length+' /Root '+catalog+' 0 R >>\nstartxref\n'+xref+'\n%%EOF';
+ return new TextEncoder().encode(out);
 }
+
 async function printDoc(){let kind=$('docKind').value,month=$('docMonth').value;await saveFile((kind==='trips'?'Foaie-parcurs-':'Fisa-cheltuieli-')+month+'.pdf',makePdf(reportData(month,kind)),'application/pdf')}
 
 recalcLastKm();localStorage.setItem(K,JSON.stringify(d));render();
-document.addEventListener("deviceready",syncTripNotification);setTimeout(syncTripNotification,700);setTimeout(syncDueNotifications,1000);</script><script src="ns-documents-v1.3.19.js"></script></body></html>
+document.addEventListener("deviceready",syncTripNotification);setTimeout(syncTripNotification,700);setTimeout(syncDueNotifications,1000);</script><script src="ns-documents-v1.3.20.js"></script></body></html>
